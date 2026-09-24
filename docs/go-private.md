@@ -1,73 +1,65 @@
-# Runbook: making a temporarily-public repo private
+# Final phase: making every repo private
 
-`sggs-data`, `sggs-platform`, `algominutes` and `wassup-secretary` are public only for free Actions minutes (see
-`intended_visibility: private` in `catalog.yaml`). This is the checklist for flipping them.
+**Owner decision (25 Sep 2026):** all work happens with repos public, on free Actions compute. The last
+step of the org plan is to make **every** repo private. Until the owner says go, nothing here runs.
 Visibility changes need explicit owner approval (`AGENTS.md` §3).
 
-## Status (25 Sep 2026)
+`catalog.yaml` records the end state: every entry has `intended_visibility: private`, except
+`.github` (see below). The member homepage lists what is still public under "Temporarily public".
 
-**Decision (owner, 25 Sep 2026): keep these repos public for now, to keep using free Actions compute.
-Make them private later.** Nothing below is scheduled. Pick it up when the owner says go.
+## Public today → private at the end
 
-| Step | State |
-|---|---|
-| Consumers accept an optional read token | `sggs-platform#162` and `gurbani-soul-ios#13` merged; dataset fetches verified in CI on Linux and macOS |
-| Org Actions billing works | **Blocked**: private-repo jobs refused with "recent account payments have failed" (re-checked 15:00 UTC 24 Sep) |
-| `SGGS_READ_TOKEN` org secret exists | Not yet (owner creates it) |
+| Repo | Depends on / consumed by | Notes |
+|---|---|---|
+| `algominutes` | none | Proprietary licence. macOS CI job. |
+| `wassup-secretary` | none | Proprietary; created 24 Sep 2026. |
+| `ichr-website` | none | Client site; its README credits Algorythmos publicly. Vercel Pro deploys private repos fine. |
+| `sggs-data` | read by `sggs-platform`, `gurbani-soul-ios` | Flip together with its consumers. |
+| `sggs-platform` | reads `sggs-data`; read by `gurbani-soul-ios` | Production deploy fetches the dataset. |
+| `gurbani-soul-ios` | reads `sggs-data`, `sggs-platform` | macOS CI jobs. |
+| `.github` | none | **Exception, owner to confirm.** It *is* the public org homepage. Making it private removes the profile and the org-default community files from strangers' view. |
 
-Until then, only private repos are affected by the billing block: `.github-private` (catalog CI),
-`wassup-meeting` and `wassup-call-dashboard`. Public repos run free.
+## What changes when they go private
 
-## Why the order matters
+- **Actions billing.** Private-repo minutes bill to the org. September 2026 usage at private rates:
+  `sggs-platform` ≈ $32/month (Linux only; its macOS jobs moved out), `algominutes` ≈ $26,
+  `gurbani-soul-ios` ≈ $21 (macOS), others under $5. The Team plan's included minutes offset part of
+  this. **The org's billing must be working first**, or every job is refused ("recent account payments
+  have failed", seen 24 Sep 2026).
+- **Cross-repo reads.** A workflow's `github.token` reads only its own repo. `sggs-platform#162` and
+  `gurbani-soul-ios#13` (merged) already read with `secrets.SGGS_READ_TOKEN || github.token`, so the
+  only change needed is the secret.
+- **Security features.** Secret scanning, push protection and private vulnerability reporting are
+  free only on public repos. After the flip they switch off unless the org buys GitHub Secret
+  Protection. The repos keep their own gitleaks CI.
+- **Stars and watchers** are erased when a repo goes private (none recorded on 25 Sep 2026).
+- **The public profile** (`.github/profile/README.md`) links to product websites, not repos, so it
+  stays accurate. Its "How we build" line about public repositories becomes moot; edit it then.
 
-- **Billing.** Private-repo minutes bill to the org. If billing is failing, every job on a flipped
-  repo is refused, including `sggs-platform`'s production deploy.
-- **Cross-repo reads.** A workflow's `github.token` reads only its own repo. `sggs-platform` and
-  `gurbani-soul-ios` fetch `sggs-data` (and `gurbani-soul-ios` vendors from `sggs-platform`), so a
-  private `sggs-data` returns 404 to them unless they use a token that can read it.
-- **Security features.** Secret scanning and push protection are free only on public repos. After the
-  flip they switch off unless the org buys GitHub Secret Protection. The repos' own gitleaks CI stays.
-- **Cost.** September 2026 usage priced at the private rate: `sggs-platform` ≈ $32/month Linux
-  (its macOS jobs moved to `gurbani-soul-ios`), `algominutes` ≈ $26, `sggs-data` < $1. The Team plan's
-  included minutes offset part of this. Check current rates on the billing page first.
+## Steps (when the owner says go)
 
-## 1. Prerequisites (owner)
-
-1. Fix billing: Algorythmos-AI → Settings → Billing & plans. Confirm with a manual run of any
-   private-repo workflow (e.g. `.github-private` → Actions → Catalog → Run workflow).
-2. Create the read token: a **fine-grained personal access token** (or a GitHub App installation)
-   - Resource owner: `Algorythmos-AI`
-   - Repository access: only `sggs-data` and `sggs-platform`
-   - Permissions: Contents **read**, Metadata read. Nothing else.
-   - Expiry: set one and diary the rotation.
-3. Store it as an **org** secret available to selected repos only, typing the value at the hidden prompt:
+1. **Owner:** confirm org billing works. Manually run any private-repo workflow, e.g.
+   `.github-private` → Actions → Catalog → Run workflow.
+2. **Owner:** create a fine-grained token (resource owner `Algorythmos-AI`; repositories `sggs-data`
+   and `sggs-platform`; Contents **read** + Metadata read; set an expiry). Store it by typing the value
+   at the hidden prompt:
    ```bash
    gh secret set SGGS_READ_TOKEN --org Algorythmos-AI --visibility selected --repos sggs-platform,gurbani-soul-ios
    ```
-4. Merge the two consumer PRs. Then re-run one `scripture-integrity` and one `ci` run and confirm the
-   dataset steps still pass. They now use the new token.
-
-## 2. Flip, in this order
-
-1. `algominutes` and `wassup-secretary`. Nothing depends on them.
-2. `sggs-data` and `sggs-platform` together, only after step 1.4 is green.
-3. `gurbani-soul-ios` stays public (`intended_visibility: public`).
-
-```bash
-gh repo edit Algorythmos-AI/<repo> --visibility private --accept-visibility-change-consequences
-```
-
-## 3. After each flip
-
-1. `catalog.yaml`: set `visibility: private`, then `make render`, and commit.
-2. `make properties APPLY=--apply`. The sensitive properties (`data-class`, `intended-visibility`)
-   are set automatically once a repo is private.
-3. `make validate`. It must be clean.
-4. Watch the next CI run and production deploy on the flipped repo. Any 404 on a dataset step means the
-   token is missing from that repo or lacks Contents: read.
+   Then re-run one `scripture-integrity` (sggs-platform) and one `ci` (gurbani-soul-ios). Both must pass.
+3. **Flip** the independent repos first: `algominutes`, `wassup-secretary`, `ichr-website`.
+   Then flip `sggs-data`, `sggs-platform` and `gurbani-soul-ios` together.
+   ```bash
+   gh repo edit Algorythmos-AI/<repo> --visibility private --accept-visibility-change-consequences
+   ```
+4. **After each flip:** in `catalog.yaml` set `visibility: private`; then `make render`,
+   `make properties APPLY=--apply` (sets the sensitive properties now that the repo is private) and
+   `make validate`. Watch the next CI run and production deploy. A 404 on a dataset step means the token
+   is missing from that repo or lacks Contents: read.
+5. **Decide `.github`** (keep public for the homepage, or make private and drop the public profile).
+6. **Finally**, update `.github/profile/README.md` ("How we build") and this runbook's status.
 
 ## Rollback
 
 `gh repo edit Algorythmos-AI/<repo> --visibility public --accept-visibility-change-consequences`,
-then revert the catalog change. Stars and watchers are erased when a repo goes private. These repos had
-none on 25 Sep 2026.
+then revert the catalog change.
