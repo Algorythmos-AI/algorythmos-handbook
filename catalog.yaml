@@ -7,10 +7,11 @@
 # Enums (enforced by scripts/catalog.py):
 #   kind:        app | service | web | data | monorepo | library | infra | docs | ops | config
 #   lifecycle:   active | dormant | deprecated | archived | planned
-#                (active = pushed within 120 days; the validator warns when this drifts)
+#                (the validator warns when an 'active' repo has had no push for 120 days)
 #   visibility / intended_visibility: public | private
 #   data_class:  public | internal | confidential | restricted
 #   location:    org (Algorythmos-AI) | personal (skalaliya — to migrate)
+#   licence:     proprietary (LICENSE, Algorythmos Pty Ltd) | notice (NOTICE.md) | pending (owner decision) | n/a
 
 version: 1
 updated: 2026-09-24
@@ -72,6 +73,7 @@ repos:
     intended_visibility: private
     data_class: public
     default_branch: main
+    licence: notice
     deploys_to: [testflight, app-store]
     depends_on: [Algorythmos-AI/sggs-data, Algorythmos-AI/sggs-platform]
     notes: Consumes sggs-data by commit + sha256 (dataset.lock.json). If sggs-data goes private, CI needs a read token.
@@ -84,6 +86,7 @@ repos:
     intended_visibility: private
     data_class: restricted
     default_branch: integration
+    licence: notice
     deploys_to: [render-api, vercel-web]
     depends_on: [Algorythmos-AI/sggs-data]
     notes: Formerly sggs-knowledge-base (GitHub redirects). Temporarily public; NOTICE.md says intended private.
@@ -96,6 +99,7 @@ repos:
     intended_visibility: private
     data_class: restricted
     default_branch: main
+    licence: notice
     deploys_to: []
     depends_on: [Algorythmos-AI/sggs-source]
     notes: Temporarily public for Actions compute. Translation layer is licence-restricted — see NOTICE.md.
@@ -108,6 +112,7 @@ repos:
     intended_visibility: private
     data_class: restricted
     default_branch: main
+    licence: pending
     deploys_to: [github-releases]
     notes: Non-redistributable source PDF and translation files. Release assets are never replaced.
 
@@ -121,40 +126,41 @@ repos:
     intended_visibility: private
     data_class: confidential
     default_branch: integration
+    licence: proprietary
     deploys_to: [gcp-cloud-run, firebase]
     notes: Proprietary licence. Temporarily public for Actions compute (uses macOS runners).
 
   # ── WASSUP platform (transferred from integrant-biotechnology on 2026-09-24) ─
-  - {repo: Algorythmos-AI/wassup-secretary, product: wassup, kind: monorepo, location: org, lifecycle: active, visibility: public, intended_visibility: private, data_class: confidential, default_branch: integration, deploys_to: [], notes: "Multi-clinic AI phone receptionist (voice gateway, core API, ops worker). Proprietary; temporarily public for CI compute. Created 2026-09-24."}
-  - {repo: Algorythmos-AI/wassup-web, product: wassup, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly frontend (renamed 2026-09-24). Authored by abhishekyadav01 (not an org member)."}
-  - {repo: Algorythmos-AI/wassup-patient-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly patient-api (renamed 2026-09-24). Authored by abhishekyadav01. README is setup notes only."}
-  - {repo: Algorythmos-AI/wassup-authorize-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly authorize-api (renamed 2026-09-24). Auth0 token verification. Authored by abhishekyadav01."}
-  - {repo: Algorythmos-AI/wassup-encounters-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly encounters-api (renamed 2026-09-24). Empty repository."}
-  - {repo: Algorythmos-AI/wassup-scheduling-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly scheduling-api (renamed 2026-09-24). main created 2026-09-25 from integration/scheduling-foundation (kept)."}
-  - {repo: Algorythmos-AI/wassup-transcription-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly transcription-api (renamed 2026-09-24). Skeleton."}
-  - {repo: Algorythmos-AI/wassup-workflow-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly workflow-api (renamed 2026-09-24). Skeleton."}
-  - {repo: Algorythmos-AI/wassup-notification-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly notification-api (renamed 2026-09-24). Skeleton."}
-  - {repo: Algorythmos-AI/wassup-messaging-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly messaging-api (renamed 2026-09-24). Skeleton."}
-  - {repo: Algorythmos-AI/wassup-documents-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly documents-api (renamed 2026-09-24). Skeleton."}
-  - {repo: Algorythmos-AI/wassup-audit-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly audit-api (renamed 2026-09-24). Append-only audit trail skeleton."}
-  - {repo: Algorythmos-AI/wassup-media-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Formerly media-api (renamed 2026-09-24). Skeleton."}
-  - {repo: Algorythmos-AI/wassup-monolith, product: wassup, kind: monorepo, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Moved from personal account 2026-09-24. WASSUP modular monolith."}
-  - {repo: Algorythmos-AI/wassup-genesis, product: wassup, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [firebase], notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/wassup-genesis-backend, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [gcp-cloud-run], notes: "Moved from personal account 2026-09-24. Python engine + FastAPI on Cloud Run + Vertex AI Gemini."}
-  - {repo: Algorythmos-AI/wassup-genesis-platform, product: wassup, kind: docs, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [vercel], notes: "Moved from personal account 2026-09-24. Clinical briefing and investor materials."}
-  - {repo: Algorythmos-AI/wassup-dashboard, product: wassup, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/wassup-meeting, product: wassup, kind: app, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: integration, deploys_to: [gcp-cloud-run, firebase], notes: "Moved from personal account 2026-09-24. Name has a typo (three s)."}
-  - {repo: Algorythmos-AI/wassup-call-dashboard, product: wassup, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [firebase-hosting, railway], notes: "Moved from personal account 2026-09-24. Name has a typo (one s)."}
+  - {repo: Algorythmos-AI/wassup-secretary, product: wassup, kind: monorepo, location: org, lifecycle: active, visibility: public, intended_visibility: private, data_class: confidential, default_branch: integration, licence: proprietary, deploys_to: [], notes: "Multi-clinic AI phone receptionist (voice gateway, core API, ops worker). Proprietary; temporarily public for CI compute. Created 2026-09-24."}
+  - {repo: Algorythmos-AI/wassup-web, product: wassup, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: pending, deploys_to: [], notes: "Formerly frontend (renamed 2026-09-24). Authored by abhishekyadav01 (not an org member)."}
+  - {repo: Algorythmos-AI/wassup-patient-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: pending, deploys_to: [], notes: "Formerly patient-api (renamed 2026-09-24). Authored by abhishekyadav01. README is setup notes only."}
+  - {repo: Algorythmos-AI/wassup-authorize-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: pending, deploys_to: [], notes: "Formerly authorize-api (renamed 2026-09-24). Auth0 token verification. Authored by abhishekyadav01."}
+  - {repo: Algorythmos-AI/wassup-encounters-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: pending, deploys_to: [], notes: "Formerly encounters-api (renamed 2026-09-24). Empty repository."}
+  - {repo: Algorythmos-AI/wassup-scheduling-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [], notes: "Formerly scheduling-api (renamed 2026-09-24). main created 2026-09-25 from integration/scheduling-foundation (kept)."}
+  - {repo: Algorythmos-AI/wassup-transcription-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [], notes: "Formerly transcription-api (renamed 2026-09-24). Skeleton."}
+  - {repo: Algorythmos-AI/wassup-workflow-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [], notes: "Formerly workflow-api (renamed 2026-09-24). Skeleton."}
+  - {repo: Algorythmos-AI/wassup-notification-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [], notes: "Formerly notification-api (renamed 2026-09-24). Skeleton."}
+  - {repo: Algorythmos-AI/wassup-messaging-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [], notes: "Formerly messaging-api (renamed 2026-09-24). Skeleton."}
+  - {repo: Algorythmos-AI/wassup-documents-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [], notes: "Formerly documents-api (renamed 2026-09-24). Skeleton."}
+  - {repo: Algorythmos-AI/wassup-audit-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [], notes: "Formerly audit-api (renamed 2026-09-24). Append-only audit trail skeleton."}
+  - {repo: Algorythmos-AI/wassup-media-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [], notes: "Formerly media-api (renamed 2026-09-24). Skeleton."}
+  - {repo: Algorythmos-AI/wassup-monolith, product: wassup, kind: monorepo, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [], notes: "Moved from personal account 2026-09-24. WASSUP modular monolith."}
+  - {repo: Algorythmos-AI/wassup-genesis, product: wassup, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [firebase], notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/wassup-genesis-backend, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [gcp-cloud-run], notes: "Moved from personal account 2026-09-24. Python engine + FastAPI on Cloud Run + Vertex AI Gemini."}
+  - {repo: Algorythmos-AI/wassup-genesis-platform, product: wassup, kind: docs, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [vercel], notes: "Vercel project `clinical-data-platform`. Moved from personal account 2026-09-24. Clinical briefing and investor materials."}
+  - {repo: Algorythmos-AI/wassup-dashboard, product: wassup, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [], notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/wassup-meeting, product: wassup, kind: app, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: integration, licence: proprietary, deploys_to: [gcp-cloud-run, firebase], notes: "Moved from personal account 2026-09-24. Name has a typo (three s)."}
+  - {repo: Algorythmos-AI/wassup-call-dashboard, product: wassup, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [firebase-hosting, railway], notes: "Moved from personal account 2026-09-24. Name has a typo (one s)."}
 
   # ── Agentic Armor ───────────────────────────────────────────────────────────
   - {repo: null, product: agentic-armor, kind: app, location: org, lifecycle: planned, visibility: private, intended_visibility: private, data_class: internal, default_branch: null, deploys_to: [], target_name: agentic-armor, notes: "Planned; no repository yet."}
 
   # ── Algorythmos company platform ────────────────────────────────────────────
-  - {repo: Algorythmos-AI/algorythmos-website, product: algorythmos, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: master, deploys_to: [vercel], notes: "Moved from personal account 2026-09-24. algorythmos.com (Astro, EN/FR). Vercel project algorythmos-astro."}
-  - {repo: Algorythmos-AI/algorythmos-api, product: algorythmos, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [vercel], notes: "Moved from personal account 2026-09-24. Multi-tenant document-processing API (FastAPI)."}
-  - {repo: Algorythmos-AI/algorythmos-docs, product: algorythmos, kind: docs, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/algorythmos-ui, product: algorythmos, kind: library, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/algorythmos-console, product: algorythmos, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [vercel], notes: "Moved from personal account 2026-09-24. Console for the document-processing API."}
+  - {repo: Algorythmos-AI/algorythmos-website, product: algorythmos, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: master, licence: proprietary, deploys_to: [vercel], notes: "Also linked to a second, older Vercel project `algorythoms`. Moved from personal account 2026-09-24. algorythmos.com (Astro, EN/FR). Vercel project algorythmos-astro."}
+  - {repo: Algorythmos-AI/algorythmos-api, product: algorythmos, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [vercel], notes: "PRODUCTION ROLLED BACK 2026-09-25 to the Feb build (a fresh build 404s on the current Vercel runtime); auto-promotion paused until fixed and promoted. Moved from personal account 2026-09-24. Multi-tenant document-processing API (FastAPI)."}
+  - {repo: Algorythmos-AI/algorythmos-docs, product: algorythmos, kind: docs, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [vercel], notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/algorythmos-ui, product: algorythmos, kind: library, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [], notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/algorythmos-console, product: algorythmos, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [vercel], notes: "Moved from personal account 2026-09-24. Console for the document-processing API."}
 
   # ── Client: ICHR ────────────────────────────────────────────────────────────
   - repo: Algorythmos-AI/ichr-website
@@ -166,6 +172,7 @@ repos:
     intended_visibility: private
     data_class: public
     default_branch: integration
+    licence: pending
     deploys_to: [vercel]
     client: International Coalition for Human Rights
     notes: ichr-international.org — the repo credits Algorythmos publicly.
@@ -178,25 +185,26 @@ repos:
     intended_visibility: private
     data_class: confidential
     default_branch: main
+    licence: pending
     deploys_to: []
     client: International Coalition for Human Rights
     notes: Security operations notes and pre-migration history. Never copy into the public repo.
 
   # ── Client: Integrant ───────────────────────────────────────────────────────
-  - {repo: Algorythmos-AI/integrant-portal, product: integrant, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], client: Integrant Pty Ltd, notes: "Formerly data-room-portal (renamed 2026-09-24). Integrant's internal document portal, authored under an integrant.bio identity. Transferred 2026-09-24; ownership subject to the commercial agreement."}
+  - {repo: Algorythmos-AI/integrant-portal, product: integrant, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: pending, deploys_to: [], client: Integrant Pty Ltd, notes: "Formerly data-room-portal (renamed 2026-09-24). Integrant's internal document portal, authored under an integrant.bio identity. Transferred 2026-09-24; ownership subject to the commercial agreement."}
 
   # ── Client websites (personal account — to migrate) ─────────────────────────
-  - {repo: Algorythmos-AI/mazcina-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], client: Mazcina, notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/pdto-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], client: PDTO, notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/regenu-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], client: RegenU, notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/renovations-australia-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], client: Renovations Australia, notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/cabinets-and-wardrobes-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], client: Cabinets and Wardrobes, notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/australians-care-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], client: Australians Care, notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/pure-sydney-cleaning-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], client: Pure Sydney Cleaning, notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/margaret-property-services-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], client: Margaret Property Services, notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/elizabeth-cleaners-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], client: Elizabeth Cleaners, notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/marigold-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], client: Marigold International Society, notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/mazcina-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [], client: Mazcina, notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/pdto-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [vercel], client: PDTO, notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/regenu-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [vercel], client: RegenU, notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/renovations-australia-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [], client: Renovations Australia, notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/cabinets-and-wardrobes-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [vercel], client: Cabinets and Wardrobes, notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/australians-care-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [vercel], client: Australians Care, notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/pure-sydney-cleaning-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [], client: Pure Sydney Cleaning, notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/margaret-property-services-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [vercel], client: Margaret Property Services, notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/elizabeth-cleaners-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [], client: Elizabeth Cleaners, notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/marigold-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [], client: Marigold International Society, notes: "Moved from personal account 2026-09-24."}
 
   # ── Org configuration ───────────────────────────────────────────────────────
-  - {repo: Algorythmos-AI/.github, product: algorythmos, kind: config, location: org, lifecycle: active, visibility: public, intended_visibility: public, data_class: public, default_branch: main, deploys_to: [], notes: "Public org profile and default community-health files. Stays public even in the all-private end state: making it private removes the public org homepage (owner to confirm at the final phase)."}
-  - {repo: Algorythmos-AI/.github-private, product: algorythmos, kind: config, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "This repo: member homepage, catalog, agent rules, standards."}
+  - {repo: Algorythmos-AI/.github, product: algorythmos, kind: config, location: org, lifecycle: active, visibility: public, intended_visibility: public, data_class: public, default_branch: main, licence: n/a, deploys_to: [], notes: "Public org profile and default community-health files. Stays public in the all-private end state: it is the public org homepage (owner decision 25 Sep 2026)."}
+  - {repo: Algorythmos-AI/.github-private, product: algorythmos, kind: config, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: n/a, deploys_to: [], notes: "This repo: member homepage, catalog, agent rules, standards."}

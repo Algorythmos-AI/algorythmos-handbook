@@ -5,7 +5,7 @@ step of the org plan is to make **every** repo private. Until the owner says go,
 Visibility changes need explicit owner approval (`AGENTS.md` §3).
 
 `catalog.yaml` records the end state: every entry has `intended_visibility: private`, except
-`.github` (see below). The member homepage lists what is still public under "Temporarily public".
+`.github`, which stays public as the org homepage (owner decision, 25 Sep 2026). The member homepage lists what is still public under "Temporarily public".
 
 ## Public today → private at the end
 
@@ -17,7 +17,7 @@ Visibility changes need explicit owner approval (`AGENTS.md` §3).
 | `sggs-data` | read by `sggs-platform`, `gurbani-soul-ios` | Flip together with its consumers. |
 | `sggs-platform` | reads `sggs-data`; read by `gurbani-soul-ios` | Production deploy fetches the dataset. |
 | `gurbani-soul-ios` | reads `sggs-data`, `sggs-platform` | macOS CI jobs. |
-| `.github` | none | **Exception, owner to confirm.** It *is* the public org homepage. Making it private removes the profile and the org-default community files from strangers' view. |
+| `.github` | none | **Stays public** (owner decision, 25 Sep 2026). It is the public org homepage. |
 
 ## What changes when they go private
 
@@ -56,8 +56,7 @@ Visibility changes need explicit owner approval (`AGENTS.md` §3).
    `make properties APPLY=--apply` (sets the sensitive properties now that the repo is private) and
    `make validate`. Watch the next CI run and production deploy. A 404 on a dataset step means the token
    is missing from that repo or lacks Contents: read.
-5. **Decide `.github`** (keep public for the homepage, or make private and drop the public profile).
-6. **Finally**, update `.github/profile/README.md` ("How we build") and this runbook's status.
+5. **Finally**, update `.github/profile/README.md` ("How we build") and this runbook's status.
 
 ## Rollback
 

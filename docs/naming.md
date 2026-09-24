@@ -22,7 +22,9 @@ predictable enough that you can guess a repo's name before you search for it.
 4. **Families are documented, not renamed.** `sggs-*` is the scripture data platform; `gurbani-soul-*`
    is the consumer app brand. Both belong to the Gurbani Soul product.
 5. **Every repo has** a one-line description, a README, and either a licence or an explicit
-   "Proprietary" notice. Public repos also get topics.
+   "Proprietary" notice. Public repos also get topics. Algorythmos-owned code uses the standard
+   proprietary `LICENSE` (Algorythmos Pty Ltd), recorded as `licence: proprietary` in the catalog.
+   `make validate` checks that the declared file exists.
 6. **Retire by archiving, never deleting.** Never reuse a retired name: reusing it breaks the redirect
    GitHub keeps for the old URL.
 

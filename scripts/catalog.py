@@ -49,10 +49,11 @@ ENUMS = {
     "intended_visibility": {"public", "private"},
     "data_class": {"public", "internal", "confidential", "restricted"},
     "location": {"org", "personal"},
+    "licence": {"proprietary", "notice", "pending", "n/a"},
 }
 REQUIRED = ["repo", "product", "kind", "location", "lifecycle", "visibility",
             "intended_visibility", "data_class", "default_branch", "deploys_to"]
-OPTIONAL = {"depends_on", "client", "target_name", "notes"}
+OPTIONAL = {"depends_on", "client", "target_name", "notes", "licence"}
 ACTIVE_DAYS = 120
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
@@ -142,8 +143,7 @@ def live_errors(cat: dict, expect_missing: set[str]) -> tuple[list[str], list[st
         stale = (today - pushed).days > ACTIVE_DAYS
         if e["lifecycle"] == "active" and stale:
             warns.append(f"{repo}: lifecycle active but last push {pushed} — consider dormant")
-        if e["lifecycle"] == "dormant" and not stale:
-            warns.append(f"{repo}: lifecycle dormant but pushed {pushed} — consider active")
+        # No reverse check: housekeeping pushes (licences, renames) don't make a dormant repo active.
     for name in sorted(n for n in live if n.startswith(ORG + "/")):
         if name not in catalogued:
             errs.append(f"{name}: exists in the org but is not in catalog.yaml")
@@ -163,6 +163,17 @@ def live_errors(cat: dict, expect_missing: set[str]) -> tuple[list[str], list[st
             for feature in ("secret_scanning", "secret_scanning_push_protection"):
                 if (sa.get(feature) or {}).get("status") != "enabled":
                     errs.append(f"{name}: public repo without {feature} — enable it (free on public repos)")
+    # The repo standard: every repo carries a licence or an explicit notice. Check what the catalog declares.
+    for e in cat["repos"]:
+        repo, lic = e.get("repo"), e.get("licence")
+        if not repo or repo not in live or lic not in {"proprietary", "notice"}:
+            continue
+        path = "LICENSE" if lic == "proprietary" else "NOTICE.md"
+        if subprocess.run(["gh", "api", f"repos/{repo}/contents/{path}", "--silent"], capture_output=True).returncode:
+            errs.append(f"{repo}: licence={lic} but {path} is missing")
+    pending = sorted(e["repo"] for e in cat["repos"] if e.get("licence") == "pending")
+    if pending:
+        warns.append(f"licence pending (owner decision) on {len(pending)} repos: " + ", ".join(r.split('/')[1] for r in pending))
     for name in sorted(expect_missing):
         if name in live:
             errs.append(f"{name}: passed --expect-missing but it exists — drop the flag")
