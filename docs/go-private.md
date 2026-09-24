@@ -6,11 +6,17 @@ Visibility changes need explicit owner approval (`AGENTS.md` §3).
 
 ## Status (25 Sep 2026)
 
+**Decision (owner, 25 Sep 2026): keep these repos public for now, to keep using free Actions compute.
+Make them private later.** Nothing below is scheduled. Pick it up when the owner says go.
+
 | Step | State |
 |---|---|
-| Consumers accept an optional read token | PRs open: `sggs-platform#162`, `gurbani-soul-ios#13` |
-| Org Actions billing works | **Blocked** — private-repo jobs refused: "recent account payments have failed" |
+| Consumers accept an optional read token | `sggs-platform#162` merged (verified on integration + staging); `gurbani-soul-ios#13` open |
+| Org Actions billing works | **Blocked**: private-repo jobs refused with "recent account payments have failed" (re-checked 15:00 UTC 24 Sep) |
 | `SGGS_READ_TOKEN` org secret exists | Not yet (owner creates it) |
+
+Until then, only private repos are affected by the billing block: `.github-private` (catalog CI),
+`wassup-meeting` and `wassup-call-dashboard`. Public repos run free.
 
 ## Why the order matters
 
