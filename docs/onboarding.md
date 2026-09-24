@@ -34,6 +34,15 @@ The repo list can be filtered by custom property, e.g. `props.product:wassup`,
   While there is one maintainer, **don't** turn on "require review from code owners" in a ruleset,
   because you can't approve your own pull request.
 
+## New repositories
+
+- Public repos get secret scanning and push protection automatically from the org's default code
+  security configuration ("GitHub recommended", applied to new **public** repos only; on private repos
+  those features are paid). `make validate` fails if any public repo lacks them.
+- Add the repo to `catalog.yaml`, then `make render` and `make properties APPLY=--apply`. Run
+  `scripts/sync-labels.sh <repo>` in `.github` and grant `maintainers` `maintain`. The weekly check
+  flags any repo missing from the catalog.
+
 ## Secrets
 
 Secrets never go in git. Push protection is on for every public repo and will block a push that

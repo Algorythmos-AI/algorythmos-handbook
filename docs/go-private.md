@@ -1,6 +1,6 @@
 # Runbook: making a temporarily-public repo private
 
-`sggs-data`, `sggs-platform` and `algominutes` are public only for free Actions minutes (see
+`sggs-data`, `sggs-platform`, `algominutes` and `wassup-secretary` are public only for free Actions minutes (see
 `intended_visibility: private` in `catalog.yaml`). This is the checklist for flipping them.
 Visibility changes need explicit owner approval (`AGENTS.md` §3).
 
@@ -11,7 +11,7 @@ Make them private later.** Nothing below is scheduled. Pick it up when the owner
 
 | Step | State |
 |---|---|
-| Consumers accept an optional read token | `sggs-platform#162` merged (verified on integration + staging); `gurbani-soul-ios#13` open |
+| Consumers accept an optional read token | `sggs-platform#162` and `gurbani-soul-ios#13` merged; dataset fetches verified in CI on Linux and macOS |
 | Org Actions billing works | **Blocked**: private-repo jobs refused with "recent account payments have failed" (re-checked 15:00 UTC 24 Sep) |
 | `SGGS_READ_TOKEN` org secret exists | Not yet (owner creates it) |
 
@@ -49,7 +49,7 @@ Until then, only private repos are affected by the billing block: `.github-priva
 
 ## 2. Flip, in this order
 
-1. `algominutes`. Nothing depends on it.
+1. `algominutes` and `wassup-secretary`. Nothing depends on them.
 2. `sggs-data` and `sggs-platform` together, only after step 1.4 is green.
 3. `gurbani-soul-ios` stays public (`intended_visibility: public`).
 

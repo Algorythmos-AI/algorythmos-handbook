@@ -155,6 +155,14 @@ def live_errors(cat: dict, expect_missing: set[str]) -> tuple[list[str], list[st
             for k, v in want.items():
                 if have.get(k) != v:
                     errs.append(f"{repo}: property {k}={have.get(k)!r}, catalog says {v!r} — run `catalog.py properties --apply`")
+    # Secret scanning + push protection are free on public repos and the public profile promises them.
+    # New repos get them from the org's default code security configuration; this catches any gap.
+    for name, r in sorted(live.items()):
+        if name.startswith(ORG + "/") and r["visibility"].lower() == "public" and name not in expect_missing:
+            sa = gh_json(["api", f"repos/{name}", "--jq", ".security_and_analysis"]) or {}
+            for feature in ("secret_scanning", "secret_scanning_push_protection"):
+                if (sa.get(feature) or {}).get("status") != "enabled":
+                    errs.append(f"{name}: public repo without {feature} — enable it (free on public repos)")
     for name in sorted(expect_missing):
         if name in live:
             errs.append(f"{name}: passed --expect-missing but it exists — drop the flag")
