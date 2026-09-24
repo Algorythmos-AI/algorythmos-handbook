@@ -1,0 +1,32 @@
+name: Catalog
+
+on:
+  push: { branches: [main] }
+  pull_request: {}
+  schedule: [{ cron: "0 21 * * 0" }]   # Mondays 07:00 Sydney (AEST)
+  workflow_dispatch: {}
+
+permissions: { contents: read }
+
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install --user pyyaml==6.0.2
+      - name: Schema + rendered homepage is current
+        run: |
+          python scripts/catalog.py validate --offline
+          python scripts/catalog.py render --check
+      - name: Live drift check (catalog vs GitHub)
+        # Needs a fine-grained PAT: read-only Metadata on all Algorythmos-AI and skalaliya repos.
+        # GITHUB_TOKEN cannot see other private repos, so without the secret this step is skipped.
+        env: { GH_TOKEN: "${{ secrets.CATALOG_READ_TOKEN }}" }
+        run: |
+          if [ -z "$GH_TOKEN" ]; then echo "::warning::CATALOG_READ_TOKEN not set — live drift check skipped"; exit 0; fi
+          python scripts/catalog.py validate
+      - name: Public profile leak check
+        run: |
+          git clone --depth 1 https://github.com/Algorythmos-AI/.github.git /tmp/public-profile
+          python scripts/catalog.py check-public /tmp/public-profile

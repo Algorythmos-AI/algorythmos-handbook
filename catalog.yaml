@@ -1,0 +1,201 @@
+# Algorythmos repository catalog — the single source of truth for what lives where.
+#
+# Humans: edit this file, then run `make render` and commit both files.
+# Agents: read this file first. Never infer ownership, visibility or deploy targets from memory.
+# `make validate` checks every entry against live GitHub (existence, visibility, default branch).
+#
+# Enums (enforced by scripts/catalog.py):
+#   kind:        app | service | web | data | monorepo | library | infra | docs | ops | config
+#   lifecycle:   active | dormant | deprecated | archived | planned
+#                (active = pushed within 120 days; the validator warns when this drifts)
+#   visibility / intended_visibility: public | private
+#   data_class:  public | internal | confidential | restricted
+#   location:    org (Algorythmos-AI) | personal (skalaliya — to migrate)
+
+version: 1
+updated: 2026-09-24
+
+# Words that are public product names and may appear in the public profile even though a private
+# repo shares the name. scripts/catalog.py check-public ignores these.
+public_words: [wassup, frontend, algorythmos, algominutes]
+
+products:
+  gurbani-soul:
+    name: Gurbani Soul
+    summary: Sri Guru Granth Sahib Ji, verbatim and offline, cited by Ang — iPhone, iPad and web.
+    url: https://gurbanisoul.com
+    public: true
+  algominutes:
+    name: AlgoMinutes
+    summary: AI meeting recorder — transcripts with speaker labels, structured minutes and action items.
+    url: null
+    public: true
+  wassup:
+    name: WASSUP platform
+    summary: AI clinical-workflow platform — scheduling, encounters, transcription, documents, audit.
+    url: null
+    public: true
+  agentic-armor:
+    name: Agentic Armor
+    summary: In development.
+    url: null
+    public: true
+  algorythmos:
+    name: Algorythmos company platform
+    summary: Company website, document-processing API, docs, UI kit and console.
+    url: https://algorythmos.com
+    public: false
+  ichr:
+    name: "Client: ICHR"
+    summary: International Coalition for Human Rights — trilingual (EN/AR/FR) newsroom.
+    url: https://www.ichr-international.org
+    public: true
+  integrant:
+    name: "Client: Integrant"
+    summary: Integrant Pty Ltd internal document portal.
+    url: null
+    public: false
+  client-sites:
+    name: Client websites
+    summary: Marketing sites built for small-business and community clients.
+    url: null
+    public: false
+
+repos:
+  # ── Gurbani Soul ────────────────────────────────────────────────────────────
+  - repo: Algorythmos-AI/gurbani-soul-ios
+    product: gurbani-soul
+    kind: app
+    location: org
+    lifecycle: active
+    visibility: public
+    intended_visibility: public
+    data_class: public
+    default_branch: main
+    deploys_to: [testflight, app-store]
+    depends_on: [Algorythmos-AI/sggs-data, Algorythmos-AI/sggs-platform]
+    notes: Consumes sggs-data by commit + sha256 (dataset.lock.json). If sggs-data goes private, CI needs a read token.
+  - repo: Algorythmos-AI/sggs-platform
+    product: gurbani-soul
+    kind: monorepo
+    location: org
+    lifecycle: active
+    visibility: public
+    intended_visibility: private
+    data_class: restricted
+    default_branch: integration
+    deploys_to: [render-api, vercel-web]
+    depends_on: [Algorythmos-AI/sggs-data]
+    notes: Formerly sggs-knowledge-base (GitHub redirects). Temporarily public; NOTICE.md says intended private.
+  - repo: Algorythmos-AI/sggs-data
+    product: gurbani-soul
+    kind: data
+    location: org
+    lifecycle: active
+    visibility: public
+    intended_visibility: private
+    data_class: restricted
+    default_branch: main
+    deploys_to: []
+    depends_on: [Algorythmos-AI/sggs-source]
+    notes: Temporarily public for Actions compute. Translation layer is licence-restricted — see NOTICE.md.
+  - repo: Algorythmos-AI/sggs-source
+    product: gurbani-soul
+    kind: data
+    location: org
+    lifecycle: active
+    visibility: private
+    intended_visibility: private
+    data_class: restricted
+    default_branch: main
+    deploys_to: [github-releases]
+    notes: Non-redistributable source PDF and translation files. Release assets are never replaced.
+
+  # ── AlgoMinutes ─────────────────────────────────────────────────────────────
+  - repo: Algorythmos-AI/algominutes
+    product: algominutes
+    kind: monorepo
+    location: org
+    lifecycle: active
+    visibility: public
+    intended_visibility: private
+    data_class: confidential
+    default_branch: integration
+    deploys_to: [gcp-cloud-run, firebase]
+    notes: Proprietary licence. Temporarily public for Actions compute (uses macOS runners).
+
+  # ── WASSUP platform (transferred from integrant-biotechnology on 2026-09-24) ─
+  - {repo: Algorythmos-AI/frontend, product: wassup, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-web, notes: "Authored by abhishekyadav01 (not an org member)."}
+  - {repo: Algorythmos-AI/patient-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-patient-api, notes: "Authored by abhishekyadav01. README is setup notes only."}
+  - {repo: Algorythmos-AI/authorize-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-authorize-api, notes: "Auth0 token verification. Authored by abhishekyadav01."}
+  - {repo: Algorythmos-AI/encounters-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-encounters-api, notes: "Empty repository."}
+  - {repo: Algorythmos-AI/scheduling-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: integration/scheduling-foundation, deploys_to: [], target_name: wassup-scheduling-api, notes: "Default branch is a feature branch — set it to main."}
+  - {repo: Algorythmos-AI/transcription-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-transcription-api, notes: "Skeleton."}
+  - {repo: Algorythmos-AI/workflow-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-workflow-api, notes: "Skeleton."}
+  - {repo: Algorythmos-AI/notification-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-notification-api, notes: "Skeleton."}
+  - {repo: Algorythmos-AI/messaging-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-messaging-api, notes: "Skeleton."}
+  - {repo: Algorythmos-AI/documents-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-documents-api, notes: "Skeleton."}
+  - {repo: Algorythmos-AI/audit-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-audit-api, notes: "Append-only audit trail skeleton."}
+  - {repo: Algorythmos-AI/media-api, product: wassup, kind: service, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-media-api, notes: "Skeleton."}
+  - {repo: skalaliya/wassup, product: wassup, kind: monorepo, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], target_name: wassup-monolith, notes: "WASSUP modular monolith."}
+  - {repo: skalaliya/WASSUP-Genesis, product: wassup, kind: web, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [firebase], target_name: wassup-genesis}
+  - {repo: skalaliya/wassup-genesis-backend, product: wassup, kind: service, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [gcp-cloud-run], notes: "Python engine + FastAPI on Cloud Run + Vertex AI Gemini."}
+  - {repo: skalaliya/wassup-genesis-platform, product: wassup, kind: docs, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [vercel], notes: "Clinical briefing and investor materials."}
+  - {repo: skalaliya/wassup-dashboard, product: wassup, kind: web, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: []}
+  - {repo: skalaliya/wasssup-meeting, product: wassup, kind: app, location: personal, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: integration, deploys_to: [gcp-cloud-run, firebase], target_name: wassup-meeting, notes: "Name has a typo (three s)."}
+  - {repo: skalaliya/wasup-call-dashboard, product: wassup, kind: web, location: personal, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [gcp-cloud-run, firebase], target_name: wassup-call-dashboard, notes: "Name has a typo (one s)."}
+
+  # ── Agentic Armor ───────────────────────────────────────────────────────────
+  - {repo: null, product: agentic-armor, kind: app, location: org, lifecycle: planned, visibility: private, intended_visibility: private, data_class: internal, default_branch: null, deploys_to: [], target_name: agentic-armor, notes: "Planned; no repository yet."}
+
+  # ── Algorythmos company platform ────────────────────────────────────────────
+  - {repo: skalaliya/Algorythmos, product: algorythmos, kind: web, location: personal, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: master, deploys_to: [vercel], target_name: algorythmos-website, notes: "algorythmos.com (Astro, EN/FR). Vercel project algorythmos-astro. Migrate first."}
+  - {repo: skalaliya/api-algorythmos, product: algorythmos, kind: service, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [vercel], target_name: algorythmos-api, notes: "Multi-tenant document-processing API (FastAPI)."}
+  - {repo: skalaliya/docs.algorythmos, product: algorythmos, kind: docs, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], target_name: algorythmos-docs}
+  - {repo: skalaliya/ui.algorythmos, product: algorythmos, kind: library, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], target_name: algorythmos-ui}
+  - {repo: skalaliya/algorythmos-console, product: algorythmos, kind: web, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [vercel], notes: "Console for the document-processing API."}
+
+  # ── Client: ICHR ────────────────────────────────────────────────────────────
+  - repo: Algorythmos-AI/ichr-website
+    product: ichr
+    kind: web
+    location: org
+    lifecycle: active
+    visibility: public
+    intended_visibility: public
+    data_class: public
+    default_branch: integration
+    deploys_to: [vercel]
+    client: International Coalition for Human Rights
+    notes: ichr-international.org — the repo credits Algorythmos publicly.
+  - repo: Algorythmos-AI/ichr-ops
+    product: ichr
+    kind: ops
+    location: org
+    lifecycle: active
+    visibility: private
+    intended_visibility: private
+    data_class: confidential
+    default_branch: main
+    deploys_to: []
+    client: International Coalition for Human Rights
+    notes: Security operations notes and pre-migration history. Never copy into the public repo.
+
+  # ── Client: Integrant ───────────────────────────────────────────────────────
+  - {repo: Algorythmos-AI/data-room-portal, product: integrant, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], client: Integrant Pty Ltd, target_name: integrant-portal, notes: "Integrant's internal document portal, authored under an integrant.bio identity. Transferred 2026-09-24; ownership subject to the commercial agreement."}
+
+  # ── Client websites (personal account — to migrate) ─────────────────────────
+  - {repo: skalaliya/mazcina, product: client-sites, kind: web, location: personal, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], client: Mazcina, target_name: mazcina-website}
+  - {repo: skalaliya/pdto.org, product: client-sites, kind: web, location: personal, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], client: PDTO, target_name: pdto-website}
+  - {repo: skalaliya/regenu-website, product: client-sites, kind: web, location: personal, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], client: RegenU}
+  - {repo: skalaliya/renovations-australia, product: client-sites, kind: web, location: personal, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], client: Renovations Australia, target_name: renovations-australia-website}
+  - {repo: skalaliya/cabinetsandwardrobes, product: client-sites, kind: web, location: personal, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], client: Cabinets and Wardrobes, target_name: cabinets-and-wardrobes-website}
+  - {repo: skalaliya/AustraliansCare, product: client-sites, kind: web, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], client: Australians Care, target_name: australians-care-website}
+  - {repo: skalaliya/Pure-Sydney-Cleaning, product: client-sites, kind: web, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], client: Pure Sydney Cleaning, target_name: pure-sydney-cleaning-website}
+  - {repo: skalaliya/Margaret-Property-Services, product: client-sites, kind: web, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [vercel], client: Margaret Property Services, target_name: margaret-property-services-website}
+  - {repo: skalaliya/ElizabethCleaners, product: client-sites, kind: web, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], client: Elizabeth Cleaners, target_name: elizabeth-cleaners-website}
+  - {repo: skalaliya/Marigold-International-Society, product: client-sites, kind: web, location: personal, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, deploys_to: [], client: Marigold International Society, target_name: marigold-website}
+
+  # ── Org configuration ───────────────────────────────────────────────────────
+  - {repo: Algorythmos-AI/.github, product: algorythmos, kind: config, location: org, lifecycle: active, visibility: public, intended_visibility: public, data_class: public, default_branch: main, deploys_to: [], notes: "Public org profile and default community-health files."}
+  - {repo: Algorythmos-AI/.github-private, product: algorythmos, kind: config, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, deploys_to: [], notes: "This repo: member homepage, catalog, agent rules, standards."}
