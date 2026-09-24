@@ -11,8 +11,9 @@ catalogues. It is a single-person company: one director, one secretary, one shar
 | Careers | — | careers@algorythmos.com |
 | Vulnerability reports (public repos) | GitHub private vulnerability reporting | Security tab → "Report a vulnerability" |
 
-When the team grows: add a `maintainers` team, set it as `CODEOWNERS` in each repo, and give each
-catalog entry a real `owner` value. Until then there's no escalation path beyond the owner.
+The `maintainers` team (currently just the owner) has `maintain` on every repo and is the
+`CODEOWNERS` target. When the team grows, add people to it and give catalog entries a real `owner`
+value. Until then there's no escalation path beyond the owner.
 
 ## Commercial status by product
 

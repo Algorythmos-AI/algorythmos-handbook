@@ -10,6 +10,11 @@
         Rewrite the generated block of profile/README.md from catalog.yaml.
         --check exits 1 if the file is out of date instead of writing it.
 
+    catalog.py properties [--apply]
+        Sync org custom properties (schema + per-repo values) from catalog.yaml. Dry-run by default:
+        prints what would change. --apply writes, then reads back. `validate` (online) fails when
+        live property values drift from the catalog.
+
     catalog.py check-public PATH
         Scan a checkout of the PUBLIC Algorythmos-AI/.github repo for anything that must never be
         published: private/personal repo names, street-address forms, bank-number shapes, personal
@@ -142,6 +147,14 @@ def live_errors(cat: dict, expect_missing: set[str]) -> tuple[list[str], list[st
     for name in sorted(n for n in live if n.startswith(ORG + "/")):
         if name not in catalogued:
             errs.append(f"{name}: exists in the org but is not in catalog.yaml")
+    if gh_json(["api", f"orgs/{ORG}/properties/schema"]):  # only once properties are set up
+        for repo, want in desired_values(cat).items():
+            if repo in expect_missing or repo not in live:
+                continue
+            have = live_values(repo)
+            for k, v in want.items():
+                if have.get(k) != v:
+                    errs.append(f"{repo}: property {k}={have.get(k)!r}, catalog says {v!r} — run `catalog.py properties --apply`")
     for name in sorted(expect_missing):
         if name in live:
             errs.append(f"{name}: passed --expect-missing but it exists — drop the flag")
@@ -251,6 +264,114 @@ def cmd_render(a) -> int:
     return 0
 
 
+# ── properties ───────────────────────────────────────────────────────────────
+# catalog field -> org custom property. Personal-account repos can't carry org properties.
+PROPERTY_FIELDS = {
+    "product": "product",
+    "kind": "kind",
+    "lifecycle": "lifecycle",
+    "data-class": "data_class",
+    "intended-visibility": "intended_visibility",
+    "client": "client",
+}
+PROPERTY_HELP = {
+    "product": "Product this repository belongs to (see .github-private/catalog.yaml)",
+    "kind": "What the repository is: app, service, web, data, monorepo, library, infra, docs, ops, config",
+    "lifecycle": "active = pushed within 120 days; dormant; deprecated; archived; planned",
+    "data-class": "Most sensitive data the repository holds",
+    "intended-visibility": "Target visibility. Differs from actual visibility for temporarily-public repos",
+    "client": "Client organisation, for client work only",
+}
+
+
+def desired_schema(cat: dict) -> dict[str, dict]:
+    schema = {}
+    for prop, field in PROPERTY_FIELDS.items():
+        body = {"value_type": "single_select", "required": False, "description": PROPERTY_HELP[prop],
+                "values_editable_by": "org_actors"}
+        if prop == "product":
+            body["allowed_values"] = sorted(cat["products"])
+        elif prop == "client":
+            body = {"value_type": "string", "required": False, "description": PROPERTY_HELP[prop],
+                    "values_editable_by": "org_actors"}
+        else:
+            body["allowed_values"] = sorted(ENUMS[field])
+        schema[prop] = body
+    return schema
+
+
+# Property values on a public repo are readable by anyone via the API, unauthenticated. These would
+# advertise which public repos hold sensitive data or are about to go private, so they are unset on
+# public repos and live only in the private catalog.
+PRIVATE_ONLY_PROPERTIES = {"data-class", "intended-visibility"}
+
+
+def desired_values(cat: dict) -> dict[str, dict[str, str | None]]:
+    out = {}
+    for e in cat["repos"]:
+        if e.get("repo") and e["location"] == "org":
+            vals = {prop: e.get(field) for prop, field in PROPERTY_FIELDS.items()}
+            if e["visibility"] == "public":
+                vals.update({p: None for p in PRIVATE_ONLY_PROPERTIES})
+            out[e["repo"]] = vals
+    return out
+
+
+def live_values(repo: str) -> dict[str, str | None]:
+    return {p["property_name"]: p["value"] for p in gh_json(["api", f"repos/{repo}/properties/values"])}
+
+
+def gh_write(method: str, path: str, body: dict) -> None:
+    out = subprocess.run(["gh", "api", "-X", method, path, "--input", "-"],
+                         input=json.dumps(body), capture_output=True, text=True)
+    if out.returncode != 0:
+        raise RuntimeError(f"{method} {path}: {out.stderr.strip()}")
+
+
+def cmd_properties(a) -> int:
+    cat = load()
+    if errs := schema_errors(cat):
+        print("error: fix catalog schema errors first (catalog.py validate --offline)")
+        return 1
+    mode = "APPLY" if a.apply else "DRY-RUN"
+    live_schema = {p["property_name"]: p for p in gh_json(["api", f"orgs/{ORG}/properties/schema"])}
+    changes = 0
+    for prop, want in desired_schema(cat).items():
+        have = live_schema.get(prop)
+        same = bool(have) and all(have.get(k) == want[k] for k in ("value_type", "required", "description")) \
+            and sorted(have.get("allowed_values") or []) == sorted(want.get("allowed_values") or [])
+        if not same:
+            changes += 1
+            print(f"[{mode}] schema {prop}: {'create' if not have else 'update'} "
+                  f"{want['value_type']} {want.get('allowed_values', '')}")
+            if a.apply:
+                gh_write("PUT", f"orgs/{ORG}/properties/schema/{prop}", want)
+    live = {r["nameWithOwner"] for r in gh_json(["repo", "list", ORG, "--limit", "1000", "--json", "nameWithOwner"])}
+    for repo, want in desired_values(cat).items():
+        if repo not in live:
+            print(f"[{mode}] skip {repo}: not on GitHub")
+            continue
+        have = live_values(repo) if live_schema else {}
+        diff = {k: v for k, v in want.items() if have.get(k) != v}
+        if diff:
+            changes += 1
+            print(f"[{mode}] values {repo}: " + ", ".join(f"{k}={v}" for k, v in diff.items()))
+            if a.apply:
+                gh_write("PATCH", f"orgs/{ORG}/properties/values", {
+                    "repository_names": [repo.split("/")[1]],
+                    "properties": [{"property_name": k, "value": v} for k, v in diff.items()]})
+    if a.apply and changes:
+        drift = []
+        for r, want in desired_values(cat).items():
+            if r in live:
+                have = live_values(r)
+                drift += [f"{r}: {k}" for k, v in want.items() if have.get(k) != v]
+        print(f"read-back: {'OK' if not drift else 'MISMATCH ' + '; '.join(drift)}")
+        return 1 if drift else 0
+    print(f"{mode}: {changes} change(s)")
+    return 0
+
+
 # ── check-public ─────────────────────────────────────────────────────────────
 FIXED_PATTERNS = {
     "street address": r"Elizabeth\s+St|Surry\s+Hills|\bLevel\s+1\b|\bUnit\s+1\b|\b2010\b",
@@ -307,10 +428,13 @@ def main() -> int:
     v.add_argument("--expect-missing", action="append", metavar="OWNER/REPO")
     r = sub.add_parser("render")
     r.add_argument("--check", action="store_true")
+    p = sub.add_parser("properties")
+    p.add_argument("--apply", action="store_true")
     c = sub.add_parser("check-public")
     c.add_argument("path")
     a = ap.parse_args()
-    return {"validate": cmd_validate, "render": cmd_render, "check-public": cmd_check_public}[a.cmd](a)
+    return {"validate": cmd_validate, "render": cmd_render, "properties": cmd_properties,
+            "check-public": cmd_check_public}[a.cmd](a)
 
 
 if __name__ == "__main__":

@@ -19,7 +19,12 @@ other automated contributor.
   or `integration`.
 - Deployed web platforms promote `integration` → `main`. Apps and data repos use `main` only.
 - A change that adds, renames, transfers, archives or re-scopes a repo must update `catalog.yaml`
-  and re-render the member homepage (`make render`) in the same PR here.
+  and re-render the member homepage (`make render`) in the same PR here. After it merges, sync
+  the org custom properties: `make properties`, then `make properties APPLY=--apply`.
+- Custom properties (`product`, `kind`, `lifecycle`, `client`, and on private repos also
+  `data-class` and `intended-visibility`) are **derived from the catalog**. Never edit them in the
+  GitHub UI; change the catalog instead. Sensitive properties are deliberately left unset on public
+  repos, because anyone can read property values on a public repo.
 - Scripture repos (`sggs-*`, `gurbani-soul-*`): text is verbatim and cited by Ang. Never edit,
   normalise or "correct" Gurmukhi. Follow each repo's editorial-ledger rules.
 
