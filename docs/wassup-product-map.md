@@ -53,7 +53,7 @@ external contributor (`abhishekyadav01`) and have a `pending` licence decision.
 ## Related but not WASSUP code
 
 - `integrant-portal` — Integrant's internal document portal (feeds "Wassup AI"); a client system, catalogued under Integrant.
-- The `wassup-pm` org — a previous project (Plane self-host, gateway, inventory service). Not needed; backed up 25 Sep 2026 and scheduled for deletion by the owner.
+- The `wassup-pm` org — a previous project (Plane self-host, gateway, inventory service). Not needed and not catalogued; full git bundles taken 25 Sep 2026; the owner deletes it (D-014).
 
 ## Commercial note
 

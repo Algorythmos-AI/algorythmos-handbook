@@ -58,8 +58,8 @@ Terms you will meet in repo names, READMEs and CI logs. Product and repo names a
 | **ICHR** | International Coalition for Human Rights, a Geneva-based NGO. Algorythmos builds and operates its trilingual newsroom site (`ichr-website`, public) and keeps ops notes in `ichr-ops` (private). |
 | **Integrant** | Integrant Pty Ltd, a biotech client. Its GitHub org `integrant-biotechnology` keeps three repos; `integrant-portal` (its internal document portal) and the WASSUP repos it hosted moved here on 24 Sep 2026. |
 | **PDTO** | Organization for Peace and Democratic Transition; client website `pdto-website` (pdto.org). |
-| **Vision On Care** | A March 2026 care-provider platform prototype (15 microservice repos). Algorythmos IP; being imported from the `visiononcare` org as `visiononcare-*` and archived. |
-| **`wassup-pm`** | A previous, unneeded project org (Plane self-host, gateway, inventory service). Backed up and scheduled for deletion by the owner. |
+| **Vision On Care** | A March 2026 prototype of an operations platform for NDIS-style disability-support providers. Algorythmos IP. Imported on 25 Sep 2026 as the 15 `visiononcare-*` repos and **archived** (read-only): `visiononcare-web` is the only substantial code; the 13 `*-service` repos are identical FastAPI scaffolds. |
+| **`wassup-pm`** | A previous, unneeded project org (Plane self-host, gateway, inventory service). Not catalogued. Backed up 25 Sep 2026; the owner deletes it (D-014). |
 | **Client websites** | Marketing sites built for small businesses and community groups (`*-website` repos). Algorythmos owns the code. |
 
 ## Infrastructure
@@ -72,4 +72,5 @@ Terms you will meet in repo names, READMEs and CI logs. Product and repo names a
 | **Cloud Run / Vertex AI** | Google Cloud: backend containers and Gemini models used by AlgoMinutes and Wassup Doc. |
 | **Railway** | Hosts the call dashboard's API and Postgres (since 31 May 2026). |
 | **`integration` → `main`** | Branch model for deployed web platforms: `integration` is staging, `main` is production; releases are PRs from one to the other. Apps and data repos use `main` only. |
+| **Archived** | A read-only repo (GitHub's archive flag): kept for history, never changed. Catalog `lifecycle: archived`; `make validate` checks the flag matches. To change one: unarchive, change, re-archive, with owner approval. Today only the `visiononcare-*` repos are archived; dormant WASSUP repos are deliberately *not* (D-011). |
 | **Ruleset** | GitHub branch protection. Flagship repos have their own; an org ruleset blocks force-push and deletion on every default branch. |

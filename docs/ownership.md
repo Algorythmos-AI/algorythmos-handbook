@@ -31,6 +31,6 @@ value. Until then there's no escalation path beyond the owner.
 |---|---|---|
 | `biteperk` | BitePerk Pty Ltd — a separate company | Never share code, secrets, Apple IDs or Actions runners with Algorythmos repos. |
 | `integrant-biotechnology` | Client (Integrant). Members: `integrant-au`, `willwicky`, `skalaliya` | Still holds `integrant`, `chaos-to-creation`, `prof-gordon-slater`. |
-| `visiononcare` | Vision On Care platform prototype — 15 microservice repos (Mar 2026) | **Algorythmos IP** (decision D-013). Being imported here as `visiononcare-*` and archived; the emptied org is then deleted by the owner. |
-| `wassup-pm` | Plane self-host, gateway, inventory service, infrastructure, shared contracts (Apr 2026) | **Previous project, not needed** (decision D-014). Mirror-backed-up; the owner deletes the repos and the org. |
+| `visiononcare` | Empty since 25 Sep 2026 | **Algorythmos IP** (D-013). Its 15 repos now live here as `visiononcare-*`, archived. The owner deletes the empty org (D-021). |
+| `wassup-pm` | Plane self-host, gateway, inventory service, infrastructure, shared contracts (Apr 2026) | **Previous project, not needed** (D-014). Full git bundles of all 5 repos verified on 25 Sep 2026 and kept off GitHub by the owner; the owner deletes the repos and the org. |
 | `wassup-au` | Empty | — |

@@ -134,6 +134,18 @@ uncertain (first deploy, previous commit missing from the shallow clone, `.git` 
 `.vercelignore`) builds. A `vercel.json` `ignoreCommand` in a repo overrides the dashboard setting;
 `algorythmos-api` has its own (`scripts/vercel_ignore.sh`).
 
+## Vision On Care (archived)
+
+A March 2026 prototype, imported and archived on 25 Sep 2026 (decision D-013). Nothing here is
+developed; read it for history only.
+
+- `visiononcare-web` — the only substantial code: React + Vite front end with mock-backed workflows
+  (participants, workers, shifts, notes, funding, invoices). Vercel project `vison-on-care-frontend`
+  (spelling as created) still serves the last build at vison-on-care-frontend.vercel.app.
+- `visiononcare-api-gateway` and 12 `visiononcare-*-service` repos — identical FastAPI scaffolds
+  (about 1 KB of code each, two commits); never implemented.
+- `visiononcare-worker-mobile` — created empty; never started.
+
 ## Org plumbing
 
 ```mermaid
