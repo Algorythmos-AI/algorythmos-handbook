@@ -53,7 +53,7 @@ ENUMS = {
 }
 REQUIRED = ["repo", "product", "kind", "location", "lifecycle", "visibility",
             "intended_visibility", "data_class", "default_branch", "deploys_to"]
-OPTIONAL = {"depends_on", "client", "target_name", "notes", "licence"}
+OPTIONAL = {"depends_on", "client", "target_name", "notes", "licence", "url"}
 ACTIVE_DAYS = 120
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
@@ -94,6 +94,8 @@ def schema_errors(cat: dict) -> list[str]:
             errs.append(f"{repo}: location={e.get('location')} but owner is {owner}")
         if e.get("location") == "personal" and not NAME_RE.match(e.get("target_name") or repo.split("/")[1]):
             errs.append(f"{repo}: personal repo whose name breaks the standard needs a valid target_name")
+        if e.get("url") and not str(e["url"]).startswith("https://"):
+            errs.append(f"{where}: url must start with https://")
         if e.get("target_name") and not NAME_RE.match(e["target_name"]):
             errs.append(f"{where}: target_name {e['target_name']!r} is not lowercase kebab-case")
         if e.get("visibility") == "public" and e.get("data_class") in {"confidential", "restricted"} \
@@ -225,13 +227,14 @@ def render_block(cat: dict) -> str:
         if not group:
             continue
         out += [f"#### {p['name']}", "", esc(p["summary"]), "",
-                "| Repo | Kind | Visibility | Default branch | Ships to | Status | Notes |",
-                "|---|---|---|---|---|---|---|"]
+                "| Repo | Kind | Status | Live at | Visibility | Default branch | Ships to | Notes |",
+                "|---|---|---|---|---|---|---|---|"]
         for e in group:
             name = link(e["repo"]) if e["repo"] else f"_{e.get('target_name')}_ (no repo yet)"
             ships = ", ".join(e["deploys_to"]) or "—"
             branch = f"`{e['default_branch']}`" if e["default_branch"] else "—"
-            out.append(f"| {name} | {e['kind']} | {vis(e)} | {branch} | {ships} | {e['lifecycle']} "
+            live = f"[{e['url'].split('://', 1)[1].rstrip('/')}]({e['url']})" if e.get("url") else "—"
+            out.append(f"| {name} | {e['kind']} | {e['lifecycle']} | {live} | {vis(e)} | {branch} | {ships} "
                        f"| {esc(e.get('notes'))} |")
         out.append("")
     personal = [e for e in repos if e["location"] == "personal"]

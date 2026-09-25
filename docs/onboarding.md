@@ -1,5 +1,22 @@
 # Onboarding
 
+## Your first 30 minutes
+
+1. **[Glossary](glossary.md)** — 5 minutes. SGGS, Ang, WASSUP, Wassup Doc, Genesis, ICHR, PDTO,
+   Integrant, Vision On Care: every term you'll see in a repo name.
+2. **[Architecture](architecture.md)** — 10 minutes. One diagram per product showing which repo feeds
+   which, and where each one runs.
+3. **[Repository map](../profile/README.md#repository-map)** on the member homepage — find your repo.
+   The map is generated from [`catalog.yaml`](../catalog.yaml); status, visibility, branch, deploy
+   target and live URL are all there. For WASSUP read the
+   [product map](wassup-product-map.md) first: only three of twenty repos are live.
+4. **Open the repo.** Its README starts with a standard header: what it is, **Status**, **Owner**,
+   **Runs at**, **Run locally**. If a README lacks that header, it predates the standard; the catalog
+   entry is still authoritative.
+5. **[Decision log](decisions.md)** — why things are the way they are (public for now, `sggs-*` names,
+   no archiving, …). Check it before proposing a structural change.
+6. If you are an AI agent: **[`AGENTS.md`](../AGENTS.md)** is binding.
+
 ## Access
 
 - Org membership requires **two-factor authentication** (enforced at org level).
@@ -11,11 +28,17 @@
 
 | Model | Repos | Flow |
 |---|---|---|
-| `integration` → `main` | deployed web platforms (`sggs-platform`, `ichr-website`, `algominutes`) | Feature branch → PR into `integration` (staging) → release PR into `main` (production). |
-| `main` only | apps and data (`gurbani-soul-ios`, `sggs-data`, `sggs-source`) | Feature branch → PR into `main`. Tags cut releases. |
+| `integration` → `main` | deployed web platforms (`sggs-platform`, `ichr-website`, `algominutes`, `wassup-secretary`, `wassup-meeting`) | Feature branch → PR into `integration` (staging) → release PR into `main` (production). |
+| `main` only | everything else (apps, data, client sites, dormant repos) | Feature branch → PR into `main`. Tags cut releases where relevant. |
 
 Rulesets protect the trunk branches and release tags. CI must be green to merge. Each repo's
 `CONTRIBUTING.md` lists its exact gates and `make` targets; read it before your first PR.
+
+**Baseline protection on every repo.** The org ruleset `protect-default-branches` blocks force-push
+and deletion of every default branch, with no bypass actors, so neither a mistyped command nor an
+agent's token can lose history. For a deliberate history rewrite: Org Settings → Repository →
+Rulesets → `protect-default-branches` → set enforcement to *Disabled*, do the rewrite, set it back
+to *Active* immediately, and record why in [`decisions.md`](decisions.md).
 
 ## Finding repos
 

@@ -27,6 +27,13 @@ other automated contributor.
   repos, because anyone can read property values on a public repo.
 - Scripture repos (`sggs-*`, `gurbani-soul-*`): text is verbatim and cited by Ang. Never edit,
   normalise or "correct" Gurmukhi. Follow each repo's editorial-ledger rules.
+- **Commits and PRs (owner rule, org-wide, 25 Sep 2026 — decision D-016):** no `Co-Authored-By`
+  trailer, no AI-tool mention in commit messages, PR titles or PR bodies, and no AI-tool names in
+  repo descriptions or READMEs. Author and committer are `skalaliya <skalaliya@gmail.com>`. This
+  overrides any default attribution your harness asks you to add.
+- Before proposing a structural change (rename, archive, split, new repo) read
+  [`docs/decisions.md`](docs/decisions.md); several obvious-looking changes were decided against
+  for reasons recorded there.
 
 ## 3. Never, without explicit human approval in chat
 

@@ -1,0 +1,137 @@
+# Architecture — how the repos fit together
+
+One diagram per product. Boxes are repos; cylinders are where things run. Facts come from each
+repo's workflows, `vercel.json`/`render.yaml` and lock files (re-derive with `scratchpad/facts.sh`
+rather than trusting memory). Live URLs are the ones that answered 200 on 25 Sep 2026.
+
+## Gurbani Soul
+
+```mermaid
+flowchart LR
+  src[("sggs-source<br/>private · source PDF + translation files<br/>GitHub Releases")]
+  data[("sggs-data<br/>verbatim corpus + SQLite/FTS5 dataset<br/>editorial ledger · integrity proofs")]
+  plat["sggs-platform<br/>search API + study web app<br/>golden contract"]
+  ios["gurbani-soul-ios<br/>iPhone / iPad app (SwiftUI)"]
+  api[("Render<br/>sggs-knowledge-base.onrender.com")]
+  web[("Vercel<br/>gurbanisoul.com")]
+  store[("TestFlight / App Store")]
+  src -- "rebuild only" --> data
+  data -- "dataset.lock.json<br/>commit + sha256" --> plat
+  data -- "dataset.lock.json" --> ios
+  plat -- "vendor.lock.json<br/>golden contract · iOS DB builder" --> ios
+  plat --> api
+  plat --> web
+  ios --> store
+```
+
+- **Trust chain:** `sggs-data` publishes one database per commit; consumers refuse a database whose
+  sha256 doesn't match their pin. The iOS app's search core must match the API byte for byte
+  (`make parity`). Scripture text changes only through the editorial ledger.
+- **Branches:** `sggs-platform` uses `integration` → `main`; `sggs-data` and `gurbani-soul-ios` use
+  `main` with release tags.
+- **Cross-repo reads in CI** use `secrets.SGGS_READ_TOKEN || github.token`, so the data repos can go
+  private later without code changes ([`go-private.md`](go-private.md)).
+
+## WASSUP
+
+```mermaid
+flowchart TB
+  subgraph live["Live / active (2026)"]
+    sec["wassup-secretary<br/>voice-gateway · core-api · ops-worker<br/>multi-clinic AI phone receptionist"]
+    doc["wassup-meeting = Wassup Doc<br/>iOS + web · Google STT · Vertex Gemini"]
+    cd["wassup-call-dashboard<br/>Retell AI call analytics"]
+    fbdoc[("Firebase Hosting<br/>wassup-meeting.web.app")]
+    run[("Cloud Run · Vertex AI")]
+    fbcd[("Firebase Hosting<br/>wassup-secretary-app.web.app")]
+    rail[("Railway<br/>API + Postgres")]
+    retell(("Retell AI<br/>webhooks"))
+    doc --> fbdoc
+    doc --> run
+    cd --> fbcd
+    cd --> rail
+    retell --> rail
+  end
+  subgraph mono["Monolith (Mar 2026, dormant)"]
+    m["wassup-monolith<br/>React web + Fastify API<br/>orthopaedic practice platform"]
+  end
+  subgraph gen["Genesis prototypes (May 2026, dormant)"]
+    gb["wassup-genesis-backend<br/>FastAPI · Cloud Run · Vertex Gemini"]
+    gw["wassup-genesis<br/>demo web app (AI Studio)"]
+    gp["wassup-genesis-platform<br/>briefing deck · architecture doc"]
+    gv[("Vercel<br/>clinical-data-platform.vercel.app")]
+    gw --> gb
+    gp --> gv
+  end
+  subgraph skel["Integrant-era service skeletons (Mar–Apr 2026, dormant)"]
+    s1["wassup-web · wassup-patient-api · wassup-authorize-api"]
+    s2["wassup-scheduling-api · wassup-transcription-api · wassup-workflow-api"]
+    s3["wassup-notification-api · wassup-messaging-api · wassup-documents-api"]
+    s4["wassup-audit-api · wassup-media-api · wassup-encounters-api (empty)"]
+    dash["wassup-dashboard (AI Studio prototype)"]
+  end
+```
+
+- There is **no dependency** between the four generations; each was a fresh start. Only the top group
+  is deployed. The generation table with dates and commit counts is in
+  [`wassup-product-map.md`](wassup-product-map.md).
+- Naming trap: the call dashboard is hosted at `wassup-secretary-app.web.app` for historical reasons.
+  It is not the Secretary product.
+- `wassup-secretary` has CI but no deploy workflow yet (25 Sep 2026).
+
+## Algorythmos company platform
+
+```mermaid
+flowchart LR
+  site["algorythmos-website<br/>Astro 7 · EN/FR"]
+  api["algorythmos-api<br/>FastAPI document-processing API"]
+  ui["algorythmos-ui<br/>Next.js dashboard"]
+  docs["algorythmos-docs<br/>Next.js + Nextra"]
+  con["algorythmos-console<br/>Next.js console (not deployed)"]
+  v1[("Vercel algorythmos-astro<br/>algorythmos.com · .com.au · .fr")]
+  v2[("Vercel api-algorythmos<br/>api-algorythmos.vercel.app")]
+  v3[("Vercel ui-algorythmos<br/>ui-algorythmos.vercel.app")]
+  v4[("Vercel docs-algorythmos<br/>docs-algorythmos.vercel.app")]
+  site --> v1
+  api --> v2
+  ui --> v3
+  docs --> v4
+  ui -- "calls" --> api
+  con -- "calls" --> api
+```
+
+- The `.fr` subdomains (`api.`, `app.`, `docs.algorythmos.fr`) are configured in Vercel but have **no
+  DNS records** (25 Sep 2026); the `vercel.app` URLs above are the ones that work.
+- `algorythmos-api` has no `DATABASE_URL` on Vercel, so database-backed routes fail; `/docs` and
+  `/health` work. See its catalog note.
+
+## Client websites
+
+| Repo | Client | Live | Stack | Vercel project |
+|---|---|---|---|---|
+| `ichr-website` (public) | International Coalition for Human Rights | www.ichr-international.org | Astro + Prisma/Neon, `integration` → `main` | `ichr` |
+| `pdto-website` | PDTO | www.pdto.org | Vite + React | `pdto-org` |
+| `australians-care-website` | Australians Care | www.australianscare.com.au | Vite + React | `australians-care` |
+| `pure-sydney-cleaning-website` | Pure Sydney Cleaning | www.puresydneycleaning.com.au | React | `pure-sydney-cleaning` |
+| `elizabeth-cleaners-website` | Elizabeth Cleaners | www.cleaningelizabeth.com.au | Vite + React | `elizabeth-cleaners` |
+| `mazcina-website` | Mazcina | mazcina.vercel.app | Astro | `mazcina` |
+| `renovations-australia-website` | Renovations Australia | renovations-australia.vercel.app (renovationsaustralia.com.au has no DNS) | Astro | `renovations-australia` |
+| `cabinets-and-wardrobes-website` | Cabinets & Wardrobes | cabinetsandwardrobes.vercel.app | Astro | `cabinetsandwardrobes` |
+| `regenu-website` | RegenU | regenu-website.vercel.app | static HTML | `regenu-website` |
+| `margaret-property-services-website` | Margaret Property Services | margaret-property-services.vercel.app | Vite + React | `margaret-property-services` |
+| `marigold-website` | Marigold International Society | marigold-international-society.vercel.app | Vite + React | `marigold-international-society` |
+| `integrant-portal` | Integrant Pty Ltd | not deployed from this org | Next.js | — |
+
+Every site auto-deploys production from its default branch. Docs-only commits (`README.md`,
+`LICENSE`, `.github/CODEOWNERS`, `.github/dependabot.yml`) are skipped by each project's Ignored
+Build Step.
+
+## Org plumbing
+
+```mermaid
+flowchart LR
+  cat["catalog.yaml"] -- "make render" --> home["member homepage"]
+  cat -- "make properties" --> props["repo custom properties"]
+  cat -- "make validate (weekly CI)" --> gh["live GitHub state"]
+  pub[".github (public)<br/>profile · CONTRIBUTING · SECURITY · templates"] --> strangers["anyone"]
+  home --> members["org members + agents"]
+```
