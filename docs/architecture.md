@@ -66,7 +66,7 @@ flowchart TB
     s1["wassup-web · wassup-patient-api · wassup-authorize-api"]
     s2["wassup-scheduling-api · wassup-transcription-api · wassup-workflow-api"]
     s3["wassup-notification-api · wassup-messaging-api · wassup-documents-api"]
-    s4["wassup-audit-api · wassup-media-api · wassup-encounters-api (empty)"]
+    s4["wassup-audit-api · wassup-media-api · wassup-encounters-api (never started)"]
     dash["wassup-dashboard (AI Studio prototype)"]
   end
 ```
@@ -101,8 +101,8 @@ flowchart LR
 
 - The `.fr` subdomains (`api.`, `app.`, `docs.algorythmos.fr`) are configured in Vercel but have **no
   DNS records** (25 Sep 2026); the `vercel.app` URLs above are the ones that work.
-- `algorythmos-api` has no `DATABASE_URL` on Vercel, so database-backed routes fail; `/docs` and
-  `/health` work. See its catalog note.
+- `algorythmos-api` uses Neon Postgres and runs migrations on production deploys (its PR #19).
+  See its catalog note for open items.
 
 ## Client websites
 
@@ -123,7 +123,16 @@ flowchart LR
 
 Every site auto-deploys production from its default branch. Docs-only commits (`README.md`,
 `LICENSE`, `.github/CODEOWNERS`, `.github/dependabot.yml`) are skipped by each project's Ignored
-Build Step.
+Build Step (decision D-018):
+
+```sh
+if [ -n "$VERCEL_GIT_PREVIOUS_SHA" ] && git diff --quiet "$VERCEL_GIT_PREVIOUS_SHA" HEAD -- . ":(exclude)README.md" ":(exclude)LICENSE" ":(exclude).github/CODEOWNERS" ":(exclude).github/dependabot.yml" 2>/dev/null; then exit 0; else exit 1; fi
+```
+
+It must only ever exit 0 (skip) or 1 (build); Vercel fails the deployment on any other code. Anything
+uncertain (first deploy, previous commit missing from the shallow clone, `.git` stripped by
+`.vercelignore`) builds. A `vercel.json` `ignoreCommand` in a repo overrides the dashboard setting;
+`algorythmos-api` has its own (`scripts/vercel_ignore.sh`).
 
 ## Org plumbing
 

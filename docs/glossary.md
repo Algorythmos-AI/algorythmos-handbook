@@ -48,7 +48,7 @@ Terms you will meet in repo names, READMEs and CI logs. Product and repo names a
 | **WASSUP call dashboard** | `wassup-call-dashboard`: analytics for calls handled by Retell AI; Firebase Hosting front end, Railway API + Postgres. Live at wassup-secretary-app.web.app (a historical Firebase site name; it is *not* the Secretary product). |
 | **WASSUP Genesis** | A May 2026 prototype family for Integrant: a translational-medicine decision engine (`wassup-genesis-backend`), a demo web app (`wassup-genesis`) and a briefing deck (`wassup-genesis-platform`). Not developed since. |
 | **WASSUP monolith** | `wassup-monolith`: a March 2026 modular-monolith orthopaedic practice platform (React web + Fastify API). Not developed since. |
-| **Service skeletons** | `wassup-*-api` repos created Mar–Apr 2026 as placeholders for a microservice split (audit, documents, media, messaging, notification, transcription, workflow, scheduling, encounters). Most hold 2–5 commits and no working code. See [`wassup-product-map.md`](wassup-product-map.md). |
+| **Service skeletons** | `wassup-*-api` repos created Mar–Apr 2026 as placeholders for a microservice split (audit, documents, media, messaging, notification, transcription, workflow, scheduling, encounters). Most contain only a README, `LICENSE` and `.gitignore`; none has a running service. See [`wassup-product-map.md`](wassup-product-map.md). |
 | **Retell AI** | Third-party voice-agent platform whose call webhooks the call dashboard ingests. |
 
 ## Clients and sister orgs
