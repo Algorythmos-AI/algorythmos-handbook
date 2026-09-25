@@ -55,6 +55,7 @@ REQUIRED = ["repo", "product", "kind", "location", "lifecycle", "visibility",
             "intended_visibility", "data_class", "default_branch", "deploys_to"]
 OPTIONAL = {"depends_on", "client", "target_name", "notes", "licence", "url"}
 ACTIVE_DAYS = 120
+BASELINE_RULESET = "protect-default-branches"
 DESC_MAX = 120
 DESC_FORBIDDEN = re.compile(r"\b(claude|gemini|copilot|chatgpt|openai|generated with|ai studio|stackblitz|todo|wip|test repo)\b", re.I)
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
@@ -187,6 +188,25 @@ def live_errors(cat: dict, expect_missing: set[str]) -> tuple[list[str], list[st
             for feature in ("secret_scanning", "secret_scanning_push_protection"):
                 if (sa.get(feature) or {}).get("status") != "enabled":
                     errs.append(f"{name}: public repo without {feature} — enable it (free on public repos)")
+    # Baseline protection (decision D-017): one active org ruleset blocks deletion and force-push of every
+    # repo's default branch, with no bypass actors (agents run on the owner's token).
+    rs = [r for r in gh_json(["api", f"orgs/{ORG}/rulesets"]) if r.get("name") == BASELINE_RULESET]
+    if not rs:
+        errs.append(f"org ruleset {BASELINE_RULESET!r} is missing")
+    else:
+        full = gh_json(["api", f"orgs/{ORG}/rulesets/{rs[0]['id']}"])
+        cond = full.get("conditions") or {}
+        types = {r["type"] for r in full.get("rules", [])}
+        if full.get("enforcement") != "active":
+            errs.append(f"org ruleset {BASELINE_RULESET!r} enforcement is {full.get('enforcement')!r}, expected 'active'")
+        if full.get("bypass_actors"):
+            errs.append(f"org ruleset {BASELINE_RULESET!r} has bypass actors; expected none")
+        if not {"deletion", "non_fast_forward"} <= types:
+            errs.append(f"org ruleset {BASELINE_RULESET!r} rules are {sorted(types)}; need deletion + non_fast_forward")
+        if (cond.get("repository_name") or {}).get("include") != ["~ALL"] or (cond.get("repository_name") or {}).get("exclude"):
+            errs.append(f"org ruleset {BASELINE_RULESET!r} must target all repositories with no exclusions")
+        if "~DEFAULT_BRANCH" not in ((cond.get("ref_name") or {}).get("include") or []):
+            errs.append(f"org ruleset {BASELINE_RULESET!r} must target ~DEFAULT_BRANCH")
     # The repo standard: every repo carries a licence or an explicit notice. Check what the catalog declares.
     for e in cat["repos"]:
         repo, lic = e.get("repo"), e.get("licence")
