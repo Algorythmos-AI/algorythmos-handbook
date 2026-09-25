@@ -24,6 +24,7 @@ public_words: [wassup, frontend, algorythmos, algominutes]
 products:
   gurbani-soul:
     name: Gurbani Soul
+    aliases: [SGGS]
     summary: Sri Guru Granth Sahib Ji, verbatim and offline, cited by Ang — iPhone, iPad and web.
     url: https://gurbanisoul.com
     public: true
@@ -34,6 +35,7 @@ products:
     public: true
   wassup:
     name: WASSUP
+    aliases: [Wassup Doc, WASSUP Secretary, WASSUP Genesis]
     summary: AI for the clinic front desk — Secretary (phone receptionist), Wassup Doc (meeting notes), call analytics. Older generations kept for history; see docs/wassup-product-map.md.
     url: null
     public: true
@@ -44,16 +46,20 @@ products:
     public: true
   algorythmos:
     name: Algorythmos company platform
+    short: Algorythmos
     summary: Company website, document-processing API, docs, UI kit and console.
     url: https://algorythmos.com
     public: false
   ichr:
     name: "Client: ICHR"
+    short: ICHR
+    aliases: [International Coalition for Human Rights]
     summary: International Coalition for Human Rights — trilingual (EN/AR/FR) newsroom.
     url: https://www.ichr-international.org
     public: true
   integrant:
     name: "Client: Integrant"
+    short: Integrant
     summary: Integrant Pty Ltd internal document portal.
     url: null
     public: false
@@ -201,7 +207,7 @@ repos:
   - {repo: Algorythmos-AI/pdto-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://www.pdto.org, deploys_to: [vercel], client: PDTO, notes: "Moved from personal account 2026-09-24."}
   - {repo: Algorythmos-AI/regenu-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://regenu-website.vercel.app, deploys_to: [vercel], client: RegenU, notes: "Moved from personal account 2026-09-24."}
   - {repo: Algorythmos-AI/renovations-australia-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://renovations-australia.vercel.app, deploys_to: [vercel], client: Renovations Australia, notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/cabinets-and-wardrobes-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://cabinetsandwardrobes.vercel.app, deploys_to: [vercel], client: Cabinets and Wardrobes, notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/cabinets-and-wardrobes-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://cabinetsandwardrobes.vercel.app, deploys_to: [vercel], client: Cabinets & Wardrobes, notes: "Moved from personal account 2026-09-24."}
   - {repo: Algorythmos-AI/australians-care-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://www.australianscare.com.au, deploys_to: [vercel], client: Australians Care, notes: "Moved from personal account 2026-09-24."}
   - {repo: Algorythmos-AI/pure-sydney-cleaning-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://www.puresydneycleaning.com.au, deploys_to: [vercel], client: Pure Sydney Cleaning, notes: "Moved from personal account 2026-09-24."}
   - {repo: Algorythmos-AI/margaret-property-services-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://margaret-property-services.vercel.app, deploys_to: [vercel], client: Margaret Property Services, notes: "Moved from personal account 2026-09-24."}

@@ -55,6 +55,8 @@ REQUIRED = ["repo", "product", "kind", "location", "lifecycle", "visibility",
             "intended_visibility", "data_class", "default_branch", "deploys_to"]
 OPTIONAL = {"depends_on", "client", "target_name", "notes", "licence", "url"}
 ACTIVE_DAYS = 120
+DESC_MAX = 120
+DESC_FORBIDDEN = re.compile(r"\b(claude|gemini|copilot|chatgpt|openai|generated with|ai studio|stackblitz|todo|wip|test repo)\b", re.I)
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
 
@@ -112,7 +114,7 @@ def gh_json(args: list[str]):
 
 
 def live_repos() -> dict[str, dict]:
-    fields = "nameWithOwner,visibility,defaultBranchRef,pushedAt,isArchived"
+    fields = "nameWithOwner,visibility,defaultBranchRef,pushedAt,isArchived,description"
     live: dict[str, dict] = {}
     for owner in (ORG, PERSONAL):
         for r in gh_json(["repo", "list", owner, "--limit", "1000", "--json", fields]):
@@ -146,6 +148,26 @@ def live_errors(cat: dict, expect_missing: set[str]) -> tuple[list[str], list[st
         if e["lifecycle"] == "active" and stale:
             warns.append(f"{repo}: lifecycle active but last push {pushed} — consider dormant")
         # No reverse check: housekeeping pushes (licences, renames) don't make a dormant repo active.
+    # Description standard (docs/naming.md): present, <= DESC_MAX chars, starts with the product / client /
+    # company name a newcomer would search for, and never names an AI tool as the author.
+    for e in cat["repos"]:
+        repo = e.get("repo")
+        if not repo or repo not in live:
+            continue
+        desc = (live[repo].get("description") or "").strip()
+        prod = cat["products"][e["product"]]
+        allowed = {prod["name"], prod.get("short") or prod["name"], "Algorythmos", e.get("client") or ""}
+        allowed |= set(prod.get("aliases") or [])
+        norm = lambda s: re.sub(r"[^a-z0-9]", "", s.lower())
+        if not desc:
+            errs.append(f"{repo}: no description")
+            continue
+        if len(desc) > DESC_MAX:
+            errs.append(f"{repo}: description is {len(desc)} chars (max {DESC_MAX})")
+        if not any(a and norm(desc).startswith(norm(a)) for a in allowed):
+            errs.append(f"{repo}: description should start with one of {sorted(a for a in allowed if a)} — got {desc[:50]!r}")
+        if DESC_FORBIDDEN.search(desc):
+            errs.append(f"{repo}: description names an AI tool or filler word: {DESC_FORBIDDEN.search(desc).group(0)!r}")
     for name in sorted(n for n in live if n.startswith(ORG + "/")):
         if name not in catalogued:
             errs.append(f"{name}: exists in the org but is not in catalog.yaml")
