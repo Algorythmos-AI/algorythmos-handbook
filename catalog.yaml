@@ -47,7 +47,7 @@ products:
   algorythmos:
     name: Algorythmos company platform
     short: Algorythmos
-    summary: Company website, document-processing API, docs, UI kit and console.
+    summary: Company website, document-processing API and its dashboard, docs and console.
     url: https://algorythmos.com
     public: false
   ichr:
@@ -169,10 +169,10 @@ repos:
   - {repo: null, product: agentic-armor, kind: app, location: org, lifecycle: planned, visibility: private, intended_visibility: private, data_class: internal, default_branch: null, deploys_to: [], target_name: agentic-armor, notes: "Planned; no repository yet."}
 
   # ── Algorythmos company platform ────────────────────────────────────────────
-  - {repo: Algorythmos-AI/algorythmos-website, product: algorythmos, kind: web, location: org, lifecycle: active, visibility: public, intended_visibility: private, data_class: internal, default_branch: master, licence: proprietary, url: https://algorythmos.com, deploys_to: [vercel], notes: "Public since 2026-09-25 (owner, D-009). algorythmos.com (Astro 7, EN/FR). Vercel project algorythmos-astro. Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/algorythmos-website, product: algorythmos, kind: web, location: org, lifecycle: active, visibility: public, intended_visibility: private, data_class: internal, default_branch: master, licence: proprietary, url: https://algorythmos.com, deploys_to: [vercel], visibility_note: "Public on purpose since 2026-09-25 (D-009); the owner decides at go-private time whether it stays public", notes: "Public since 2026-09-25 (owner, D-009). algorythmos.com (Astro 7, EN/FR). Vercel project algorythmos-astro. Moved from personal account 2026-09-24."}
   - {repo: Algorythmos-AI/algorythmos-api, product: algorythmos, kind: service, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, url: https://api.algorythmos.fr/docs, deploys_to: [vercel], notes: "404 incident 2026-09-25 fixed by PR #17; Neon Postgres connected with migrations on production deploys (PR #19). Own ignoreCommand in vercel.json. api.algorythmos.fr live since 2026-09-25 (DNS added); pooled-connection fix PR #20. Open: the Python Tests workflow fails on main. Moved from personal account 2026-09-24. Multi-tenant document-processing API (FastAPI)."}
   - {repo: Algorythmos-AI/algorythmos-docs, product: algorythmos, kind: docs, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://docs-algorythmos.vercel.app, deploys_to: [vercel], notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/algorythmos-ui, product: algorythmos, kind: library, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://app.algorythmos.com, deploys_to: [vercel], notes: "Moved from personal account 2026-09-24."}
+  - {repo: Algorythmos-AI/algorythmos-ui, product: algorythmos, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://app.algorythmos.com, deploys_to: [vercel], notes: "Moved from personal account 2026-09-24."}
   - {repo: Algorythmos-AI/algorythmos-console, product: algorythmos, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [vercel], notes: "Moved from personal account 2026-09-24. Console for the document-processing API."}
 
   # ── Client: ICHR ────────────────────────────────────────────────────────────

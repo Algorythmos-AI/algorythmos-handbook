@@ -9,7 +9,8 @@
 3. **[Repository map](../profile/README.md#repository-map)** on the member homepage — find your repo.
    The map is generated from [`catalog.yaml`](../catalog.yaml); status, visibility, branch, deploy
    target and live URL are all there. For WASSUP read the
-   [product map](wassup-product-map.md) first: only three of twenty repos are live.
+   [product map](wassup-product-map.md) first: only three of twenty are in use — Secretary (staging only), Wassup Doc and the
+   call dashboard (both live).
 4. **Open the repo.** Its README starts with a standard header: what it is, **Status**, **Owner**,
    **Runs at**, **Run locally**. The six flagship repos (`gurbani-soul-ios`, `sggs-platform`, `sggs-data`,
    `algominutes`, `wassup-secretary`, `ichr-website`) keep their own, longer README format; the catalog
@@ -18,6 +19,22 @@
    dormant WASSUP repos labelled not archived, Vision On Care archived, …). Check it before proposing a
    structural change.
 6. If you are an AI agent: **[`AGENTS.md`](../AGENTS.md)** is binding.
+
+## Check yourself
+
+After the first 30 minutes you should be able to answer these from the docs alone. If you can't, the
+docs are wrong: say so, and fix them (decision D-022).
+
+1. What is SGGS, and how do the `sggs-*` repos relate to Gurbani Soul?
+2. Which WASSUP repo answers clinic phone calls, and is it in production?
+3. Where does api.algorythmos.fr deploy from, and does it work today?
+4. Who owns `mazcina-website`, and who do you ask about it?
+5. How do you run `wassup-meeting` locally?
+6. Which repos are archived, and why?
+7. Which repos are temporarily public, and what does that mean for you?
+8. What is ICHR, and who do you ask about it?
+9. What is the branch model for `sggs-platform`?
+10. Where is the decision that `.github` stays public?
 
 ## Access
 

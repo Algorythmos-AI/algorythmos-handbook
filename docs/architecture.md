@@ -17,8 +17,8 @@ flowchart LR
   store[("TestFlight / App Store")]
   src -- "rebuild only" --> data
   data -- "dataset.lock.json<br/>commit + sha256" --> plat
-  data -- "dataset.lock.json" --> ios
-  plat -- "vendor.lock.json<br/>golden contract · iOS DB builder" --> ios
+  data -- "dataset.lock.json<br/>+ vendor.lock.json: iOS DB builder" --> ios
+  plat -- "vendor.lock.json<br/>golden contract" --> ios
   plat -. rollback .-> api
   plat --> web
   ios --> store

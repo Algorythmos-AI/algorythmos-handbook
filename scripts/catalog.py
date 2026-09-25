@@ -53,7 +53,7 @@ ENUMS = {
 }
 REQUIRED = ["repo", "product", "kind", "location", "lifecycle", "visibility",
             "intended_visibility", "data_class", "default_branch", "deploys_to"]
-OPTIONAL = {"depends_on", "client", "target_name", "notes", "licence", "url"}
+OPTIONAL = {"depends_on", "client", "target_name", "notes", "licence", "url", "visibility_note"}
 ACTIVE_DAYS = 120
 BASELINE_RULESET = "protect-default-branches"
 DESC_MAX = 120
@@ -306,7 +306,8 @@ def render_block(cat: dict) -> str:
                 "Public today for free Actions compute; intended private. Don't link these from public pages. "
                 "If a README or `NOTICE.md` here says \"keep this repository private\", that is the intended end "
                 "state (D-002), not a mistake.", ""]
-        out += [f"- {link(e['repo'])} — {e['data_class']} data" for e in temp]
+        out += [f"- {link(e['repo'])} — {e['data_class']} data" + (f". {esc(e['visibility_note'])}" if e.get("visibility_note") else "")
+                for e in temp]
         out.append("")
     return "\n".join(out).rstrip() + "\n"
 

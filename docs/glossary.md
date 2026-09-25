@@ -52,7 +52,7 @@ Terms you will meet in repo names, READMEs and CI logs. Product and repo names a
 | **WASSUP Genesis** | A May 2026 prototype family for Integrant: a translational-medicine decision engine (`wassup-genesis-backend`), a demo web app (`wassup-genesis`) and a briefing deck (`wassup-genesis-platform`). Not developed since. |
 | **WASSUP monolith** | `wassup-monolith`: a March 2026 modular-monolith orthopaedic practice platform (React web + Fastify API). Not developed since. |
 | **Service skeletons** | `wassup-*-api` repos created Mar–Apr 2026 as placeholders for a microservice split (audit, documents, media, messaging, notification, transcription, workflow, scheduling, encounters). Most contain only a README, `LICENSE` and `.gitignore`; none has a running service. See [`wassup-product-map.md`](wassup-product-map.md). |
-| **Retell AI** | Third-party voice-agent platform whose call webhooks the call dashboard ingests. |
+| **Retell AI** | Third-party voice-agent platform. The voice agents answering clinic calls today are configured in Retell itself (no repo holds them); their call webhooks feed `wassup-call-dashboard`. `wassup-secretary` is Algorythmos's own receptionist, in staging. |
 
 ## Clients and sister orgs
 

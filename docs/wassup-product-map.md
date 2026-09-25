@@ -11,7 +11,7 @@ Commit counts and dates are as at 25 Sep 2026, before that week's housekeeping c
 
 | Repo | What it is | Status | Runs at | Commits | Last real commit |
 |---|---|---|---|---|---|
-| `wassup-secretary` | Multi-clinic AI phone receptionist: voice gateway, core API, ops worker, shared `wassup_core` lib, Alembic migrations | **Active** (created 24 Sep 2026; temporarily public) | not deployed yet | 36 | Sep 2026 |
+| `wassup-secretary` | Multi-clinic AI phone receptionist: voice gateway, core API, ops worker, shared `wassup_core` lib, Alembic migrations | **Active** (created 24 Sep 2026; temporarily public) | Railway staging only; no production release yet | 36 | Sep 2026 |
 | `wassup-meeting` (product: **Wassup Doc**) | Clinical meeting recorder + AI summariser: iOS app + web; Google STT v2; Vertex Gemini | **Live** (clinical alpha) | wassup-meeting.web.app · Cloud Run | 100+ | 2026-09-07 |
 | `wassup-call-dashboard` | Call analytics for Retell AI voice agents; Firebase Hosting + Auth front end, Railway API + Postgres | **Live** | wassup-secretary-app.web.app | 100+ | 2026-07-13 |
 
