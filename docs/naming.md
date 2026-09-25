@@ -25,8 +25,10 @@ predictable enough that you can guess a repo's name before you search for it.
    "Proprietary" notice. Public repos also get topics. Algorythmos-owned code uses the standard
    proprietary `LICENSE` (Algorythmos Pty Ltd), recorded as `licence: proprietary` in the catalog.
    `make validate` checks that the declared file exists.
-6. **Retire by archiving, never deleting.** Never reuse a retired name: reusing it breaks the redirect
-   GitHub keeps for the old URL.
+6. **Retire by labelling or archiving, not deleting.** Dormant work is labelled `dormant` (D-011); a finished
+   prototype worth keeping is archived with owner approval (D-013). Deletion is the owner's call, only after a
+   verified backup, and only for work with no value (D-014). Never reuse a retired name: reusing it breaks the
+   redirect GitHub keeps for the old URL.
 
 ## Renaming an existing repo
 

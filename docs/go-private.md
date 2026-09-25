@@ -7,6 +7,12 @@ Visibility changes need explicit owner approval (`AGENTS.md` §3).
 `catalog.yaml` records the end state: every entry has `intended_visibility: private`, except
 `.github`, which stays public as the org homepage (owner decision, 25 Sep 2026). The member homepage lists what is still public under "Temporarily public".
 
+> **Licence exposure while public (found 25 Sep 2026).** `sggs-data` tracks `db/sggs.sqlite` in Git LFS, and that
+> database contains the full English translation layer (`MANIFEST.json`: `translations_en = 58039`). Its
+> `NOTICE.md` says that layer is for personal, non-commercial use and must not be redistributed publicly. While
+> the repo is public, the file is publicly downloadable. Flipping `sggs-data` (with its consumers) closes it;
+> the owner decides when.
+
 ## Public today → private at the end
 
 | Repo | Depends on / consumed by | Notes |
@@ -17,6 +23,7 @@ Visibility changes need explicit owner approval (`AGENTS.md` §3).
 | `sggs-data` | read by `sggs-platform`, `gurbani-soul-ios` | Flip together with its consumers. |
 | `sggs-platform` | reads `sggs-data`; read by `gurbani-soul-ios` | Production deploy fetches the dataset. |
 | `gurbani-soul-ios` | reads `sggs-data`, `sggs-platform` | macOS CI jobs. |
+| `algorythmos-website` | none | **Owner to decide.** Made public on purpose by the website programme (D-009), after D-002 was written; the catalog still says intended private. At go-private time either flip it with the rest or set `intended_visibility: public` in the catalog. |
 | `.github` | none | **Stays public** (owner decision, 25 Sep 2026). It is the public org homepage. |
 
 ## What changes when they go private

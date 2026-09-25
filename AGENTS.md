@@ -6,7 +6,7 @@ other automated contributor.
 ## 1. Orient
 
 1. **Read [`catalog.yaml`](catalog.yaml) first.** It is the only source of truth for what a repo is,
-   who owns it, its visibility (now and intended), its data class, default branch and deploy targets.
+   which product it belongs to (ownership is org-wide: see `docs/ownership.md`), its visibility (now and intended), its data class, default branch and deploy targets.
    Do not infer any of these from memory, repo names or old conversations.
 2. **Then read the target repo's own `CLAUDE.md` / `AGENTS.md` / `CONTRIBUTING.md`.** A repo's own rules
    override anything here except section 3.

@@ -303,7 +303,9 @@ def render_block(cat: dict) -> str:
     temp = [e for e in repos if e.get("repo") and e["visibility"] == "public" and e["intended_visibility"] == "private"]
     if temp:
         out += ["### Temporarily public", "",
-                "Public today for free Actions compute; intended private. Don't link these from public pages.", ""]
+                "Public today for free Actions compute; intended private. Don't link these from public pages. "
+                "If a README or `NOTICE.md` here says \"keep this repository private\", that is the intended end "
+                "state (D-002), not a mistake.", ""]
         out += [f"- {link(e['repo'])} — {e['data_class']} data" for e in temp]
         out.append("")
     return "\n".join(out).rstrip() + "\n"

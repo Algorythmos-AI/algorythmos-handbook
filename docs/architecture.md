@@ -1,8 +1,8 @@
 # Architecture — how the repos fit together
 
 One diagram per product. Boxes are repos; cylinders are where things run. Facts come from each
-repo's workflows, `vercel.json`/`render.yaml` and lock files (re-derive with `scratchpad/facts.sh`
-rather than trusting memory). Live URLs are the ones that answered 200 on 25 Sep 2026.
+repo's workflows, `vercel.json`/`render.yaml` and lock files (re-read those files rather than
+trusting memory). Live URLs are the ones that answered 200 on 25 Sep 2026.
 
 ## Gurbani Soul
 
@@ -12,14 +12,14 @@ flowchart LR
   data[("sggs-data<br/>verbatim corpus + SQLite/FTS5 dataset<br/>editorial ledger · integrity proofs")]
   plat["sggs-platform<br/>search API + study web app<br/>golden contract"]
   ios["gurbani-soul-ios<br/>iPhone / iPad app (SwiftUI)"]
-  api[("Render<br/>sggs-knowledge-base.onrender.com")]
-  web[("Vercel<br/>gurbanisoul.com")]
+  api[("Render<br/>sggs-knowledge-base.onrender.com<br/>rollback API")]
+  web[("Vercel<br/>gurbanisoul.com<br/>web app + production API functions")]
   store[("TestFlight / App Store")]
   src -- "rebuild only" --> data
   data -- "dataset.lock.json<br/>commit + sha256" --> plat
   data -- "dataset.lock.json" --> ios
   plat -- "vendor.lock.json<br/>golden contract · iOS DB builder" --> ios
-  plat --> api
+  plat -. rollback .-> api
   plat --> web
   ios --> store
 ```
@@ -76,7 +76,8 @@ flowchart TB
   [`wassup-product-map.md`](wassup-product-map.md).
 - Naming trap: the call dashboard is hosted at `wassup-secretary-app.web.app` for historical reasons.
   It is not the Secretary product.
-- `wassup-secretary` has CI but no deploy workflow yet (25 Sep 2026).
+- `wassup-secretary` deploys by script, not by workflow: `integration` goes to Railway staging by exact commit
+  (`scripts/deploy-railway.sh`); production runs only `v*` tags on `main` (its `docs/runbooks/release.md`).
 
 ## Algorythmos company platform
 
@@ -88,8 +89,8 @@ flowchart LR
   docs["algorythmos-docs<br/>Next.js + Nextra"]
   con["algorythmos-console<br/>Next.js console (not deployed)"]
   v1[("Vercel algorythmos-astro<br/>algorythmos.com · .com.au · .fr")]
-  v2[("Vercel api-algorythmos<br/>api-algorythmos.vercel.app")]
-  v3[("Vercel ui-algorythmos<br/>ui-algorythmos.vercel.app")]
+  v2[("Vercel api-algorythmos<br/>api.algorythmos.fr")]
+  v3[("Vercel ui-algorythmos<br/>app.algorythmos.com")]
   v4[("Vercel docs-algorythmos<br/>docs-algorythmos.vercel.app")]
   site --> v1
   api --> v2
@@ -99,8 +100,9 @@ flowchart LR
   con -- "calls" --> api
 ```
 
-- The `.fr` subdomains (`api.`, `app.`, `docs.algorythmos.fr`) are configured in Vercel but have **no
-  DNS records** (25 Sep 2026); the `vercel.app` URLs above are the ones that work.
+- Working hosts (checked 25 Sep 2026): `api.algorythmos.fr` (DNS added 25 Sep) and `app.algorythmos.com`.
+  `app.` and `docs.algorythmos.fr`, and `api.`/`docs.algorythmos.com`, have **no DNS records**; use
+  `docs-algorythmos.vercel.app` for the docs. Every project also answers on its `*.vercel.app` URL.
 - `algorythmos-api` uses Neon Postgres and runs migrations on production deploys (its PR #19).
   See its catalog note for open items.
 

@@ -6,10 +6,13 @@ Terms you will meet in repo names, READMEs and CI logs. Product and repo names a
 
 | Term | Meaning |
 |---|---|
-| **Algorythmos** | Algorythmos Pty Ltd, Sydney (ACN 701 006 626). Owns this GitHub org and every repo in it. One director/owner: [@skalaliya](https://github.com/skalaliya). |
+| **Algorythmos** | Algorythmos Pty Ltd, Sydney (ACN 701 006 626). Owns this GitHub org and every repo in it. One director/owner: Sameer Raj Kalaliya, [@skalaliya](https://github.com/skalaliya) — "Sam" in some READMEs. |
 | **Agentic Armor** | A planned Algorythmos product. No repository yet. |
 | **BitePerk** | BitePerk Pty Ltd, a **separate company** with its own GitHub org (`biteperk`). Never share code, secrets or Apple IDs with it. |
-| **Document-intelligence platform** | Algorythmos's own document-processing product: `algorythmos-api` (FastAPI), `algorythmos-ui` (dashboard), `algorythmos-docs`, `algorythmos-console`. Dormant since Feb 2026. |
+| **Document-intelligence platform** | Algorythmos's own document-processing product: `algorythmos-api` (FastAPI; live at api.algorythmos.fr, maintained — fixes in Sep 2026), `algorythmos-ui` (dashboard at app.algorythmos.com), `algorythmos-docs`, `algorythmos-console`. The UI, docs and console are dormant since Feb 2026. |
+| **Data class** | The most sensitive data a repo holds, set per repo in the catalog: **public** (fine to publish), **internal** (company code, nothing personal), **confidential** (client or business data, commercial terms), **restricted** (licence-restricted content, e.g. the scripture translation layer, or personal data; tightest handling). Shown on the member homepage as "… data". |
+| **Flagship repos** | The six actively developed repos with their own README format and stricter rulesets: `gurbani-soul-ios`, `sggs-platform`, `sggs-data`, `algominutes`, `wassup-secretary`, `ichr-website`. Every other repo opens with the standard header. |
+| **Plan v5** | The 25 Sep 2026 org clean-up plan (phases A–F) that produced this structure. Decisions it made are marked "Agent (plan v5)" in the [decision log](decisions.md). Its last step, making repos private, waits for the owner ([`go-private.md`](go-private.md)). |
 | **Catalog** | [`catalog.yaml`](../catalog.yaml) in this repo: the single source of truth for what each repo is. The member homepage's repo map is generated from it. |
 | **Custom properties** | GitHub repo metadata (`product`, `kind`, `lifecycle`, `client`, …) set from the catalog. Filter the repo list with `props.product:wassup`. |
 | **`maintainers`** | The org team that owns every repo and is the `CODEOWNERS` target. Currently one person. |
@@ -66,11 +69,11 @@ Terms you will meet in repo names, READMEs and CI logs. Product and repo names a
 
 | Term | Meaning |
 |---|---|
-| **Vercel** | Hosts the company website, the document-intelligence apps and all client websites. Team `skalaliya's projects` (Pro). |
-| **Render** | Hosts the Gurbani Soul search API (`sggs-knowledge-base.onrender.com`). |
+| **Vercel** | Hosts the company website, the Gurbani Soul web app and its production API functions, the document-intelligence apps and all client websites. Team `skalaliya's projects` (Pro). |
+| **Render** | Runs the Gurbani Soul single-process API `sggs-knowledge-base.onrender.com`, kept as the **rollback**. Production search runs as Vercel functions inside the gurbanisoul.com web project. |
 | **Firebase Hosting / Auth** | Hosts Wassup Doc and the call dashboard front ends. |
 | **Cloud Run / Vertex AI** | Google Cloud: backend containers and Gemini models used by AlgoMinutes and Wassup Doc. |
-| **Railway** | Hosts the call dashboard's API and Postgres (since 31 May 2026). |
+| **Railway** | Hosts the call dashboard's API and Postgres (since 31 May 2026) and `wassup-secretary` staging. |
 | **`integration` → `main`** | Branch model for deployed web platforms: `integration` is staging, `main` is production; releases are PRs from one to the other. Apps and data repos use `main` only. |
 | **Archived** | A read-only repo (GitHub's archive flag): kept for history, never changed. Catalog `lifecycle: archived`; `make validate` checks the flag matches. To change one: unarchive, change, re-archive, with owner approval. Today only the `visiononcare-*` repos are archived; dormant WASSUP repos are deliberately *not* (D-011). |
 | **Ruleset** | GitHub branch protection. Flagship repos have their own; an org ruleset blocks force-push and deletion on every default branch. |

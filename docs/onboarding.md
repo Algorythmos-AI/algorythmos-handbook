@@ -11,10 +11,12 @@
    target and live URL are all there. For WASSUP read the
    [product map](wassup-product-map.md) first: only three of twenty repos are live.
 4. **Open the repo.** Its README starts with a standard header: what it is, **Status**, **Owner**,
-   **Runs at**, **Run locally**. If a README lacks that header, it predates the standard; the catalog
-   entry is still authoritative.
+   **Runs at**, **Run locally**. The six flagship repos (`gurbani-soul-ios`, `sggs-platform`, `sggs-data`,
+   `algominutes`, `wassup-secretary`, `ichr-website`) keep their own, longer README format; the catalog
+   entry is authoritative for all of them.
 5. **[Decision log](decisions.md)** — why things are the way they are (public for now, `sggs-*` names,
-   no archiving, …). Check it before proposing a structural change.
+   dormant WASSUP repos labelled not archived, Vision On Care archived, …). Check it before proposing a
+   structural change.
 6. If you are an AI agent: **[`AGENTS.md`](../AGENTS.md)** is binding.
 
 ## Access
