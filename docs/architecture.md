@@ -112,6 +112,7 @@ flowchart LR
 |---|---|---|---|---|
 | `ichr-website` (public) | International Coalition for Human Rights | www.ichr-international.org | Astro + Prisma/Neon, `integration` → `main` | `ichr` |
 | `pdto-website` | PDTO | www.pdto.org | Vite + React | `pdto-org` |
+| `src-website` | Sudanese Rural Community (SRC) | www.src-rural.org | Next.js + Payload CMS/Neon, `integration` → `main` | `src` |
 | `australians-care-website` | Australians Care | www.australianscare.com.au | Vite + React | `australians-care` |
 | `pure-sydney-cleaning-website` | Pure Sydney Cleaning | www.puresydneycleaning.com.au | React | `pure-sydney-cleaning` |
 | `elizabeth-cleaners-website` | Elizabeth Cleaners | www.cleaningelizabeth.com.au | Vite + React | `elizabeth-cleaners` |

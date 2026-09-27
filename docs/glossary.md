@@ -61,6 +61,7 @@ Terms you will meet in repo names, READMEs and CI logs. Product and repo names a
 | **ICHR** | International Coalition for Human Rights, a Geneva-based NGO. Algorythmos builds and operates its trilingual newsroom site (`ichr-website`, public) and keeps ops notes in `ichr-ops` (private). |
 | **Integrant** | Integrant Pty Ltd, a biotech client. Its GitHub org `integrant-biotechnology` keeps three repos; `integrant-portal` (its internal document portal) and the WASSUP repos it hosted moved here on 24 Sep 2026. |
 | **PDTO** | Organization for Peace and Democratic Transition; client website `pdto-website` (pdto.org). |
+| **SRC** | Sudanese Rural Community, a Paris-based nonprofit working in Sudan; client website `src-website` (src-rural.org). |
 | **Vision On Care** | A March 2026 prototype of an operations platform for NDIS-style disability-support providers. Algorythmos IP. Imported on 25 Sep 2026 as the 15 `visiononcare-*` repos and **archived** (read-only): `visiononcare-web` is the only substantial code; the 13 `*-service` repos are identical FastAPI scaffolds. |
 | **`wassup-pm`** | A previous, unneeded project org (Plane self-host, gateway, inventory service). Not catalogued. Backed up 25 Sep 2026; the owner deletes it (D-014). |
 | **Client websites** | Marketing sites built for small businesses and community groups (`*-website` repos). Algorythmos owns the code. |
