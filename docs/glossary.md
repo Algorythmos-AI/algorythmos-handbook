@@ -54,6 +54,17 @@ Terms you will meet in repo names, READMEs and CI logs. Product and repo names a
 | **Service skeletons** | `wassup-*-api` repos created Mar–Apr 2026 as placeholders for a microservice split (audit, documents, media, messaging, notification, transcription, workflow, scheduling, encounters). Most contain only a README, `LICENSE` and `.gitignore`; none has a running service. See [`wassup-product-map.md`](wassup-product-map.md). |
 | **Retell AI** | Third-party voice-agent platform. The voice agents answering clinic calls today are configured in Retell itself (no repo holds them); their call webhooks feed `wassup-call-dashboard`. `wassup-secretary` is Algorythmos's own receptionist, in staging. |
 
+## Trading Lab
+
+| Term | Meaning |
+|---|---|
+| **Trading Lab** | Algorythmos paper-trading research product: `trading-lab` (code, public for now) and `trading-lab-source` (licence-restricted KB source, private). |
+| **Gap-and-go** | The momentum approach the pipeline tests: shortlist pre-market gappers on unusual volume, enter only on a breakout above the pre-market high after the open. |
+| **Order guard** | `trading-lab/scripts/order_guard.py`, the only code path allowed to reach the broker; dry-run by default. |
+| **PDT** | Pattern day trader rules (FINRA Rule 4210) limiting day trades in small margin accounts. |
+| **Decision ledger** | Trading Lab's record of every run and its outcome (`decisions/`); becoming schema-validated and hash-chained. |
+| **Run manifest** | Per-run metadata (git SHA, prompt version, model id, config hash) attached to each ledger entry. |
+
 ## Clients and sister orgs
 
 | Term | Meaning |

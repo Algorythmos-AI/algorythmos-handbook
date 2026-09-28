@@ -106,6 +106,25 @@ flowchart LR
 - `algorythmos-api` uses Neon Postgres and runs migrations on production deploys (its PR #19).
   See its catalog note for open items.
 
+## Trading Lab
+
+Paper-trading research: a knowledge base over trading literature plus a guarded gap-and-go
+pipeline against an Alpaca **paper** account. Runs locally; nothing is deployed. Order submission
+is frozen until its risk-control milestone lands (trading-lab ADR-0001).
+
+```mermaid
+flowchart LR
+  src["trading-lab-source (private, restricted)<br/>third-party PDFs · chunks · notes"] -- "KB_SOURCE_ROOT (local only)" --> kb["trading-lab<br/>ingest → SQLite FTS5 → search"]
+  kb --> run["scheduled agent run<br/>scan → account → guard (dry-run) → log"]
+  run --> alpaca["Alpaca paper API"]
+  run --> dec["decisions/ run logs"]
+```
+
+| Repo | Holds | Visibility |
+|---|---|---|
+| `trading-lab` | Code, prompts, run logs, `docs/` wiki and ADRs, backlog source | Public for now, intended private |
+| `trading-lab-source` | The licence-restricted source publications and text extracted from them | Private, never public |
+
 ## Client websites
 
 | Repo | Client | Live | Stack | Vercel project |

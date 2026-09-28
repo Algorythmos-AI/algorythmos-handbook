@@ -23,6 +23,7 @@ Visibility changes need explicit owner approval (`AGENTS.md` §3).
 | `sggs-data` | read by `sggs-platform`, `gurbani-soul-ios` | Flip together with its consumers. |
 | `sggs-platform` | reads `sggs-data`; read by `gurbani-soul-ios` | Production deploy fetches the dataset. |
 | `gurbani-soul-ios` | reads `sggs-data`, `sggs-platform` | macOS CI jobs. |
+| `trading-lab` | reads `trading-lab-source` locally (never in CI) | Proprietary; public since 28 Sep 2026 for Actions. Its KB source stays in private `trading-lab-source`, which must never be made public. |
 | `algorythmos-website` | none | **Owner to decide.** Made public on purpose by the website programme (D-009), after D-002 was written; the catalog still says intended private. At go-private time either flip it with the rest or set `intended_visibility: public` in the catalog. |
 | `.github` | none | **Stays public** (owner decision, 25 Sep 2026). It is the public org homepage. |
 

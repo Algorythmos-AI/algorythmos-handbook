@@ -15,7 +15,7 @@
 #   url:         optional — the live URL a newcomer can open (rendered as "Live at"); must answer 200
 
 version: 1
-updated: 2026-09-25
+updated: 2026-09-28
 
 # Words that are public product names and may appear in the public profile even though a private
 # repo shares the name. scripts/catalog.py check-public ignores these.
@@ -71,6 +71,11 @@ products:
   visiononcare:
     name: Vision On Care
     summary: Archived March 2026 prototype of an operations platform for NDIS-style disability-support providers. Algorythmos IP, imported from the visiononcare org on 2026-09-25 and archived (read-only).
+    url: null
+    public: false
+  trading-lab:
+    name: Trading Lab
+    summary: Paper-trading research — trading-book knowledge base, guarded gap-and-go pipeline, versioned prompts and evals.
     url: null
     public: false
 
@@ -167,6 +172,10 @@ repos:
 
   # ── Agentic Armor ───────────────────────────────────────────────────────────
   - {repo: null, product: agentic-armor, kind: app, location: org, lifecycle: planned, visibility: private, intended_visibility: private, data_class: internal, default_branch: null, deploys_to: [], target_name: agentic-armor, notes: "Planned; no repository yet."}
+
+  # ── Trading Lab ─────────────────────────────────────────────────────────────
+  - {repo: Algorythmos-AI/trading-lab, product: trading-lab, kind: monorepo, location: org, lifecycle: active, visibility: public, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [], visibility_note: "Temporarily public for Actions compute (D-002); back to private per go-private.md", notes: "Code-only history split from skalaliya/trading 2026-09-28 (source PDFs, extracts and local paths filtered out). Paper trading only; runs locally."}
+  - {repo: Algorythmos-AI/trading-lab-source, product: trading-lab, kind: data, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: restricted, default_branch: main, licence: notice, deploys_to: [], visibility_note: "Never public — third-party copyrighted PDFs.", notes: "Moved from personal account skalaliya/trading and renamed 2026-09-28. Non-redistributable KB source for trading-lab (KB_SOURCE_ROOT); see NOTICE.md."}
 
   # ── Algorythmos company platform ────────────────────────────────────────────
   - {repo: Algorythmos-AI/algorythmos-website, product: algorythmos, kind: web, location: org, lifecycle: active, visibility: public, intended_visibility: private, data_class: internal, default_branch: master, licence: proprietary, url: https://algorythmos.com, deploys_to: [vercel], visibility_note: "Public on purpose since 2026-09-25 (D-009); the owner decides at go-private time whether it stays public", notes: "Public since 2026-09-25 (owner, D-009). algorythmos.com (Astro 7, EN/FR). Vercel project algorythmos-astro. Moved from personal account 2026-09-24."}
