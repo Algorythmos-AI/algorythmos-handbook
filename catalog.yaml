@@ -78,6 +78,11 @@ products:
     summary: Paper-trading research — trading-book knowledge base, guarded gap-and-go pipeline, versioned prompts and evals.
     url: null
     public: false
+  pdf-algo-pro:
+    name: PDF Algo Pro
+    summary: Native PDF reader, editor and scanner for iPhone, iPad and Mac with private, on-device document intelligence.
+    url: null
+    public: false
 
 repos:
   # ── Gurbani Soul ────────────────────────────────────────────────────────────
@@ -177,6 +182,10 @@ repos:
   - {repo: Algorythmos-AI/trading-lab, product: trading-lab, kind: monorepo, location: org, lifecycle: active, visibility: public, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [], visibility_note: "Temporarily public for Actions compute (D-002); back to private per go-private.md", notes: "Code-only history split from skalaliya/trading 2026-09-28 (source PDFs, extracts and local paths filtered out). Paper trading only; runs locally."}
   - {repo: Algorythmos-AI/trading-lab-source, product: trading-lab, kind: data, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: restricted, default_branch: main, licence: notice, deploys_to: [], visibility_note: "Never public — third-party copyrighted PDFs.", notes: "Moved from personal account skalaliya/trading and renamed 2026-09-28. Non-redistributable KB source for trading-lab (KB_SOURCE_ROOT); see NOTICE.md."}
   - {repo: Algorythmos-AI/trading-lab-research, product: trading-lab, kind: monorepo, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: restricted, default_branch: main, licence: proprietary, deploys_to: [], visibility_note: "Never public — contains course-derived specifications and research records; see NOTICE.md.", notes: "Created 2026-09-28. Research engine (wt package), strategy registry and paper runner for trading-lab; runs locally via launchd against an Alpaca paper account."}
+
+  # ── PDF Algo Pro ────────────────────────────────────────────────────────────
+  - {repo: Algorythmos-AI/pdf-algo-pro, product: pdf-algo-pro, kind: app, location: org, lifecycle: planned, visibility: public, intended_visibility: private, data_class: internal, default_branch: integration, licence: proprietary, deploys_to: [testflight, app-store], visibility_note: "Temporarily public for Actions compute (D-002); back to private per go-private.md", notes: "Renamed from PDF-Algo-Pro 2026-09-28. Planning phase: no app code until its readiness gate clears. integration -> main branch model is a recorded exception for an app (D-023). Business documents live in pdf-algo-pro-private."}
+  - {repo: Algorythmos-AI/pdf-algo-pro-private, product: pdf-algo-pro, kind: docs, location: org, lifecycle: planned, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: proprietary, deploys_to: [], visibility_note: "Never public — pricing, finance and competitive analysis.", notes: "Created 2026-09-28. Confidential editions of the business documents whose redacted editions are in pdf-algo-pro (naming shape <name>-private, D-024)."}
 
   # ── Algorythmos company platform ────────────────────────────────────────────
   - {repo: Algorythmos-AI/algorythmos-website, product: algorythmos, kind: web, location: org, lifecycle: active, visibility: public, intended_visibility: private, data_class: internal, default_branch: master, licence: proprietary, url: https://algorythmos.com, deploys_to: [vercel], visibility_note: "Public on purpose since 2026-09-25 (D-009); the owner decides at go-private time whether it stays public", notes: "Public since 2026-09-25 (owner, D-009). algorythmos.com (Astro 7, EN/FR). Vercel project algorythmos-astro. Moved from personal account 2026-09-24."}

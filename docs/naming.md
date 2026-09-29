@@ -17,6 +17,7 @@ predictable enough that you can guess a repo's name before you search for it.
    | `<client>-<component>` | client work (set the `client` field in the catalog) | `ichr-website` |
    | `<name>-ops` | private runbooks and ops notes that pair with a public repo | `ichr-ops` |
    | `<name>-source` | non-redistributable inputs kept out of a public repo | `sggs-source` |
+   | `<name>-private` | confidential business documents (pricing, finance, market analysis) that pair with a public repo | `pdf-algo-pro-private` |
 3. **No generic names in a multi-product org.** `frontend`, `api`, `backend` or `patient-api` on their
    own collide across products. Prefix them with the product.
 4. **Families are documented, not renamed.** `sggs-*` is the scripture data platform; `gurbani-soul-*`
