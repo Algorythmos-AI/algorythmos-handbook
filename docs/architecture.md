@@ -111,6 +111,9 @@ flowchart LR
 Paper-trading research: a knowledge base over trading literature plus a guarded gap-and-go
 pipeline against an Alpaca **paper** account. Runs locally; nothing is deployed. Order submission
 is frozen until its risk-control milestone lands (trading-lab ADR-0001).
+The research engine (`trading-lab-research`) holds the `wt` package, the strategy registry
+(hypotheses, experiments, decisions) and a paper runner scheduled by launchd. It tests
+course-derived rules, so it is restricted and never public.
 
 ```mermaid
 flowchart LR
@@ -118,12 +121,14 @@ flowchart LR
   kb --> run["scheduled agent run<br/>scan → account → guard (dry-run) → log"]
   run --> alpaca["Alpaca paper API"]
   run --> dec["decisions/ run logs"]
+  res["trading-lab-research (private, restricted)<br/>wt engine · registry · specs"] -- "paper runner + forward test (launchd)" --> alpaca
 ```
 
 | Repo | Holds | Visibility |
 |---|---|---|
 | `trading-lab` | Code, prompts, run logs, `docs/` wiki and ADRs, backlog source | Public for now, intended private |
 | `trading-lab-source` | The licence-restricted source publications and text extracted from them | Private, never public |
+| `trading-lab-research` | Research engine (`wt`), strategy registry, specifications, paper runner | Private, never public |
 
 ## Client websites
 
