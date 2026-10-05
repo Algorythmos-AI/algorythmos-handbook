@@ -15,7 +15,7 @@
 #   url:         optional — the live URL a newcomer can open (rendered as "Live at"); must answer 200
 
 version: 1
-updated: 2026-09-28
+updated: 2026-10-05
 
 # Words that are public product names and may appear in the public profile even though a private
 # repo shares the name. scripts/catalog.py check-public ignores these.
@@ -75,7 +75,7 @@ products:
     public: false
   trading-lab:
     name: Trading Lab
-    summary: Paper-trading research — trading-book knowledge base, guarded gap-and-go pipeline, versioned prompts and evals.
+    summary: Paper-trading research — a stocks desk and a crypto desk on one cloud host with a private status dashboard, plus the original knowledge-base pipeline.
     url: null
     public: false
   pdf-algo-pro:
@@ -179,9 +179,10 @@ repos:
   - {repo: null, product: agentic-armor, kind: app, location: org, lifecycle: planned, visibility: private, intended_visibility: private, data_class: internal, default_branch: null, deploys_to: [], target_name: agentic-armor, notes: "Planned; no repository yet."}
 
   # ── Trading Lab ─────────────────────────────────────────────────────────────
-  - {repo: Algorythmos-AI/trading-lab, product: trading-lab, kind: monorepo, location: org, lifecycle: active, visibility: public, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [], visibility_note: "Temporarily public for Actions compute (D-002); back to private per go-private.md", notes: "Code-only history split from skalaliya/trading 2026-09-28 (source PDFs, extracts and local paths filtered out). Paper trading only; runs locally."}
+  - {repo: Algorythmos-AI/trading-lab, product: trading-lab, kind: monorepo, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [], notes: "Code-only history split from skalaliya/trading 2026-09-28 (source PDFs, extracts and local paths filtered out). Paper trading only; runs locally. Private on GitHub as found 2026-10-05 (the catalog said public)."}
   - {repo: Algorythmos-AI/trading-lab-source, product: trading-lab, kind: data, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: restricted, default_branch: main, licence: notice, deploys_to: [], visibility_note: "Never public — third-party copyrighted PDFs.", notes: "Moved from personal account skalaliya/trading and renamed 2026-09-28. Non-redistributable KB source for trading-lab (KB_SOURCE_ROOT); see NOTICE.md."}
-  - {repo: Algorythmos-AI/trading-lab-research, product: trading-lab, kind: monorepo, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: restricted, default_branch: main, licence: proprietary, deploys_to: [], visibility_note: "Never public — contains course-derived specifications and research records; see NOTICE.md.", notes: "Created 2026-09-28. Research engine (wt package), strategy registry and paper runner for trading-lab; runs locally via launchd against an Alpaca paper account."}
+  - {repo: Algorythmos-AI/trading-lab-research, product: trading-lab, kind: monorepo, location: org, lifecycle: active, visibility: public, intended_visibility: private, data_class: restricted, default_branch: main, licence: proprietary, deploys_to: [vercel, gcp], visibility_note: "Temporarily public for Actions compute by owner decision 2026-09-30 (risk acceptance in the repo's SECURITY.md); back to private per go-private.md. Holds course-derived specifications: never link it from a public page.", notes: "Created 2026-09-28. Research engine (wt package), strategy registry, and two paper desks: stocks (Alpaca paper account) and crypto (Kraken public data on the lab's own simulator, live 2026-10-04). Jobs run on a GCP VM since 2026-10-01; the status dashboard is on Vercel behind login."}
+  - {repo: Algorythmos-AI/trading-lab-kraken-bot, product: trading-lab, kind: service, location: org, lifecycle: archived, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, deploys_to: [], visibility_note: "Never public — its docs name private storage folders and a cloud project.", notes: "Formerly skalaliya/kraken. The original Kraken spot paper-trading bot (TypeScript, Apr 2026); never held live keys. Rebuilt as the crypto desk in trading-lab-research. Transferred, renamed and archived 2026-10-05 (D-025)."}
 
   # ── PDF Algo Pro ────────────────────────────────────────────────────────────
   - {repo: Algorythmos-AI/pdf-algo-pro, product: pdf-algo-pro, kind: app, location: org, lifecycle: planned, visibility: public, intended_visibility: private, data_class: internal, default_branch: integration, licence: proprietary, deploys_to: [testflight, app-store], visibility_note: "Temporarily public for Actions compute (D-002); back to private per go-private.md", notes: "Renamed from PDF-Algo-Pro 2026-09-28. Planning phase: no app code until its readiness gate clears. integration -> main branch model is a recorded exception for an app (D-023). Business documents live in pdf-algo-pro-private."}
