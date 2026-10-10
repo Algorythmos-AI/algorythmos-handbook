@@ -9,6 +9,7 @@ The public face is [`Algorythmos-AI/.github`](https://github.com/Algorythmos-AI/
 | `catalog.yaml` | The single source of truth for every Algorythmos repo |
 | `AGENTS.md` | Rules for AI agents across all Algorythmos repos |
 | `docs/naming.md` · `docs/ownership.md` · `docs/onboarding.md` | Standards, owners, first-day guide |
+| `docs/trading-platforms.md` | The three trading platforms, their shared knowledge base and the rules that keep them apart |
 | `scripts/catalog.py` | `validate` · `render` · `properties` · `check-public` |
 | `.github/workflows/catalog.yml` | CI: schema + render check on every push, live drift + public-leak check weekly |
 

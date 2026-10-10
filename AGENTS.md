@@ -27,6 +27,10 @@ other automated contributor.
   repos, because anyone can read property values on a public repo.
 - Scripture repos (`sggs-*`, `gurbani-soul-*`): text is verbatim and cited by Ang. Never edit,
   normalise or "correct" Gurmukhi. Follow each repo's editorial-ledger rules.
+- Trading repos (`hft-lab`, `crypto-lab`, `trading-lab-research` / `options-lab`, `trading-kb`): three separate
+  platforms and one shared knowledge base. Follow the separation contract in
+  [`docs/trading-platforms.md`](docs/trading-platforms.md): one platform per pull request, no imports across
+  platforms, paper trading only.
 - **Commits and PRs (owner rule, org-wide, 25 Sep 2026 — decision D-016):** no `Co-Authored-By`
   trailer, no AI-tool mention in commit messages, PR titles or PR bodies, and no AI-tool names in
   repo descriptions or READMEs. Author and committer are `skalaliya <skalaliya@gmail.com>`. This
