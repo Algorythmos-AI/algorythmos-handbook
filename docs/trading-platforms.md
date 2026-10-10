@@ -41,7 +41,7 @@ All of it is **paper trading only**. No repo here holds a way to reach a real-mo
 
 | Shared | Why | What ends it |
 |---|---|---|
-| The status site (`lab.algorythmos.com`) lives in the stocks and options repo and shows every desk | Moving it would break that repo's deploy guard and collide with work in flight | A desk-registry refactor, then a repo of its own |
+| The status site (`lab.algorythmos.com`) lives in the stocks and options repo and shows every desk. Since 2026-10-11 its desks are a registry and it has an HFT page; a desk in another repo is shown through that repo's own snapshot contract, vendored with a hash lock | Moving it would break that repo's deploy guard and collide with work in flight | A repo of its own |
 | One ingest key signs every desk's snapshot | A second key would be filed where nothing reads it | Per-desk key scope in the ingest route |
 | One cloud server | Owner's choice. Platforms are isolated by user, unit prefix and resource caps | A measured limit |
 
