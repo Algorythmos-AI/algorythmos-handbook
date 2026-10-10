@@ -24,6 +24,7 @@ Visibility changes need explicit owner approval (`AGENTS.md` §3).
 | `sggs-platform` | reads `sggs-data`; read by `gurbani-soul-ios` | Production deploy fetches the dataset. |
 | `gurbani-soul-ios` | reads `sggs-data`, `sggs-platform` | macOS CI jobs. |
 | `trading-lab-research` | deploys the status dashboard to Vercel; a GCP VM pulls it over HTTPS | Public since 30 Sep 2026 for Actions compute (owner decision; risk acceptance in its `SECURITY.md`). Holds course-derived specifications, so it is first in line to flip. Before flipping: add the VM's deploy key, switch the VM's remote to SSH and keep `GH_TOKEN` set (its `docs/runbooks/gcp-host.md`). |
+| `hft-lab` | none | Created public on 10 Oct 2026 for Actions compute (owner decision, D-026). Holds code and design records only; a leak check blocks papers, data and knowledge-base text. Nothing is deployed from it yet. |
 | `algorythmos-api` | none | **Owner to confirm.** Found public on 5 Oct 2026 while the catalog said private (changed about 29 Sep 2026; no decision recorded). Data class confidential. Secret scanning shows no open alerts. |
 | `algorythmos-website` | none | **Owner to decide.** Made public on purpose by the website programme (D-009), after D-002 was written; the catalog still says intended private. At go-private time either flip it with the rest or set `intended_visibility: public` in the catalog. |
 | `.github` | none | **Stays public** (owner decision, 25 Sep 2026). It is the public org homepage. |
