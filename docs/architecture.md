@@ -101,8 +101,10 @@ flowchart LR
 ```
 
 - Working hosts (checked 25 Sep 2026): `api.algorythmos.fr` (DNS added 25 Sep) and `app.algorythmos.com`.
-  `app.` and `docs.algorythmos.fr`, and `api.`/`docs.algorythmos.com`, have **no DNS records**; use
-  `docs-algorythmos.vercel.app` for the docs. Every project also answers on its `*.vercel.app` URL.
+  `app.` and `docs.algorythmos.fr`, and `api.algorythmos.com`, have **no DNS records**; use
+  `docs-algorythmos.vercel.app` for this product's docs. Every project also answers on its `*.vercel.app` URL.
+- `docs.algorythmos.com` (DNS added 12 Oct 2026) is **not** this product's docs. It serves the trading
+  platforms' documentation from `trading-lab-docs`, behind sign-in.
 - `algorythmos-api` uses Neon Postgres and runs migrations on production deploys (its PR #19).
   See its catalog note for open items.
 
