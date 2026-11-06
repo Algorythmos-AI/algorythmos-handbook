@@ -148,7 +148,7 @@ flowchart LR
 | `regenu-website` | RegenU | regenu-website.vercel.app | static HTML | `regenu-website` |
 | `margaret-property-services-website` | Margaret Property Services | margaret-property-services.vercel.app | Vite + React | `margaret-property-services` |
 | `marigold-website` | Marigold International Society | marigold-international-society.vercel.app | Vite + React | `marigold-international-society` |
-| `empowerwell-website` | Empowerwell Support (registered NDIS provider) | not deployed yet (target empowerwell.com.au) | Astro 7, static | — |
+| `empowerwell-website` | Empowerwell Support (registered NDIS provider) | empowerwell-website.vercel.app (empowerwell.com.au pending) | Astro 7, static | `empowerwell-website` |
 | `integrant-portal` | Integrant Pty Ltd | not deployed from this org | Next.js | — |
 
 Every site auto-deploys production from its default branch. Docs-only commits (`README.md`,
