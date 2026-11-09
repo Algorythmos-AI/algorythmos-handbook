@@ -2,7 +2,7 @@ name: Bot PR
 
 # Opens a draft pull request as algorythmos-bot when a claude/* branch is pushed,
 # so the owner can review and approve it (GitHub does not let an author approve
-# their own PR). Title and body come from the branch's latest commit.
+# their own PR). Title and body come from the branch's first commit.
 #
 # Needs the Actions secret ALGORYTHMOS_BOT_TOKEN: a fine-grained PAT owned by
 # algorythmos-bot, resource owner Algorythmos-AI, with Pull requests read/write,
@@ -23,7 +23,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 1 }
+        with: { fetch-depth: 0 }
       - name: Open draft PR as algorythmos-bot
         env:
           GH_TOKEN: ${{ secrets.ALGORYTHMOS_BOT_TOKEN }}
@@ -45,11 +45,14 @@ jobs:
             echo "PR #$existing already open for $BRANCH"
             exit 0
           fi
-          title=$(git log -1 --format=%s)
-          git log -1 --format=%b > "$RUNNER_TEMP/body.md"
+          first=$(git rev-list --reverse "origin/$BASE..HEAD" | head -1)
+          first=${first:-HEAD}
+          title=$(git log -1 --format=%s "$first")
+          git log -1 --format=%b "$first" > "$RUNNER_TEMP/body.md"
           [ -s "$RUNNER_TEMP/body.md" ] || echo "Changes from \`$BRANCH\`." > "$RUNNER_TEMP/body.md"
-          gh pr create --repo "$REPO" --draft --base "$BASE" --head "$BRANCH" \
-            --title "$title" --body-file "$RUNNER_TEMP/body.md" \
-            --assignee skalaliya --reviewer skalaliya || \
-          gh pr create --repo "$REPO" --draft --base "$BASE" --head "$BRANCH" \
-            --title "$title" --body-file "$RUNNER_TEMP/body.md"
+          url=$(gh pr create --repo "$REPO" --draft --base "$BASE" --head "$BRANCH" \
+            --title "$title" --body-file "$RUNNER_TEMP/body.md")
+          echo "Opened $url"
+          # Review request needs only Pull requests: write; assigning also needs Issues: write.
+          gh pr edit "$url" --add-reviewer skalaliya || echo "::warning::could not request review"
+          gh pr edit "$url" --add-assignee skalaliya || echo "::notice::could not assign (token lacks Issues: write)"
