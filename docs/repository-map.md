@@ -106,7 +106,7 @@ Marketing sites built for small-business and community clients.
 | [`src-website`](https://github.com/Algorythmos-AI/src-website) | web | active | [www.src-rural.org](https://www.src-rural.org) | private | `main` | vercel | Moved from personal account skalaliya/src and renamed 2026-09-27. integration → main. |
 | [`regenu-website`](https://github.com/Algorythmos-AI/regenu-website) | web | active | [regenu-website.vercel.app](https://regenu-website.vercel.app) | private | `main` | vercel | Moved from personal account 2026-09-24. |
 | [`renovations-australia-website`](https://github.com/Algorythmos-AI/renovations-australia-website) | web | active | [renovations-australia.vercel.app](https://renovations-australia.vercel.app) | private | `main` | vercel | Moved from personal account 2026-09-24. |
-| [`acjr-website`](https://github.com/Algorythmos-AI/acjr-website) | web | active | [www.acjr.org](https://www.acjr.org) | **public** → private | `main` | vercel | Moved from personal account 2026-10-23. Trilingual FR/EN/AR (Astro). |
+| [`acjr-website`](https://github.com/Algorythmos-AI/acjr-website) | web | active | [www.acjr.org](https://www.acjr.org) | public | `main` | vercel | Moved from personal account 2026-10-23. Trilingual FR/EN/AR (Astro). |
 | [`cabinets-and-wardrobes-website`](https://github.com/Algorythmos-AI/cabinets-and-wardrobes-website) | web | active | [cabinetsandwardrobes.vercel.app](https://cabinetsandwardrobes.vercel.app) | private | `main` | vercel | Moved from personal account 2026-09-24. |
 | [`australians-care-website`](https://github.com/Algorythmos-AI/australians-care-website) | web | dormant | [www.australianscare.com.au](https://www.australianscare.com.au) | private | `main` | vercel | Moved from personal account 2026-09-24. |
 | [`pure-sydney-cleaning-website`](https://github.com/Algorythmos-AI/pure-sydney-cleaning-website) | web | dormant | [www.puresydneycleaning.com.au](https://www.puresydneycleaning.com.au) | private | `main` | vercel | Moved from personal account 2026-09-24. |
@@ -204,5 +204,4 @@ Public today for free Actions compute; intended private. Don't link these from p
 - [`pdf-algo-pro`](https://github.com/Algorythmos-AI/pdf-algo-pro) — internal data. Temporarily public for Actions compute (D-002); back to private per go-private.md
 - [`algorythmos-website`](https://github.com/Algorythmos-AI/algorythmos-website) — internal data. Public on purpose since 2026-09-25 (D-009); the owner decides at go-private time whether it stays public
 - [`ichr-website`](https://github.com/Algorythmos-AI/ichr-website) — public data
-- [`acjr-website`](https://github.com/Algorythmos-AI/acjr-website) — internal data. Public on GitHub as found 2026-11-09 (the catalog said private; reason not recorded). Owner to confirm, or make it private per go-private.md.
 <!-- catalog:end -->
