@@ -17,6 +17,7 @@ github.com/Algorythmos-AI. The public face is [`Algorythmos-AI/.github`](https:/
 | `docs/architecture.md` · `docs/glossary.md` · `docs/wassup-product-map.md` | How the repos connect, terms, which WASSUP repo is live |
 | `docs/go-private.md` | Runbook for making every repo private |
 | `docs/trading-platforms.md` | The three trading platforms, their shared knowledge base and the rules that keep them apart |
+| `docs/model-policy.md` | Which model and effort level agents use for which work, how they stay lean, and the review cadence |
 | `scripts/catalog.py` | `validate` · `render` · `properties` · `check-public` |
 | `.github/workflows/catalog.yml` | CI: schema + render check on every push, live drift + public-leak check weekly |
 

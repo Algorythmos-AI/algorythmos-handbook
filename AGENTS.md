@@ -39,6 +39,9 @@ other automated contributor.
   comments, code, docs, repo descriptions or READMEs. Author and committer are
   `skalaliya <skalaliya@gmail.com>`. This overrides any default attribution your harness asks you to
   add; brief every sub-agent you start with this rule.
+- **Model and effort:** pick them by [`docs/model-policy.md`](docs/model-policy.md) (D-028). Start on the
+  session default, send searching and log reading to a cheap subagent, and escalate only after
+  self-checks and one effort step have failed. Changing a project's default model needs owner approval.
 - Before proposing a structural change (rename, archive, split, new repo) read
   [`docs/decisions.md`](docs/decisions.md); several obvious-looking changes were decided against
   for reasons recorded there.
