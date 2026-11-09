@@ -15,7 +15,7 @@
 #   url:         optional — the live URL a newcomer can open (rendered as "Live at"); must answer 200
 
 version: 1
-updated: 2026-11-07
+updated: 2026-11-09
 
 # Words that are public product names and may appear in the public profile even though a private
 # repo shares the name. scripts/catalog.py check-public ignores these.
@@ -288,4 +288,5 @@ repos:
 
   # ── Org configuration ───────────────────────────────────────────────────────
   - {repo: Algorythmos-AI/.github, product: algorythmos, kind: config, location: org, lifecycle: active, visibility: public, intended_visibility: public, data_class: public, default_branch: main, licence: n/a, deploys_to: [], notes: "Public org profile and default community-health files. Stays public in the all-private end state: it is the public org homepage (owner decision 25 Sep 2026)."}
-  - {repo: Algorythmos-AI/.github-private, product: algorythmos, kind: config, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: n/a, deploys_to: [], notes: "This repo: member homepage, catalog, agent rules, standards."}
+  - {repo: Algorythmos-AI/.github-private, product: algorythmos, kind: config, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: n/a, deploys_to: [], notes: "Member homepage only (profile/README.md). Everything else moved to algorythmos-handbook on 2026-11-09 (D-027): cloud agents cannot attach a repository whose name starts with a dot."}
+  - {repo: Algorythmos-AI/algorythmos-handbook, product: algorythmos, kind: config, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: confidential, default_branch: main, licence: n/a, deploys_to: [], notes: "This repo: catalog, repository map, agent rules, decisions, standards. Split from .github-private on 2026-11-09 with history (D-027)."}

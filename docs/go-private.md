@@ -50,7 +50,7 @@ Visibility changes need explicit owner approval (`AGENTS.md` §3).
 ## Steps (when the owner says go)
 
 1. **Owner:** confirm org billing works. Manually run any private-repo workflow, e.g.
-   `.github-private` → Actions → Catalog → Run workflow.
+   `algorythmos-handbook` → Actions → Catalog → Run workflow.
 2. **Owner:** create a fine-grained token (resource owner `Algorythmos-AI`; repositories `sggs-data`
    and `sggs-platform`; Contents **read** + Metadata read; set an expiry). Store it by typing the value
    at the hidden prompt:

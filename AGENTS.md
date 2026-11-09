@@ -5,7 +5,7 @@ other automated contributor.
 
 ## 1. Orient
 
-1. **Read [`catalog.yaml`](catalog.yaml) first.** It is the only source of truth for what a repo is,
+1. **Read [`catalog.yaml`](catalog.yaml) in `Algorythmos-AI/algorythmos-handbook` first.** It is the only source of truth for what a repo is,
    which product it belongs to (ownership is org-wide: see `docs/ownership.md`), its visibility (now and intended), its data class, default branch and deploy targets.
    Do not infer any of these from memory, repo names or old conversations.
 2. **Then read the target repo's own `CLAUDE.md` / `AGENTS.md` / `CONTRIBUTING.md`.** A repo's own rules
@@ -19,7 +19,7 @@ other automated contributor.
   or `integration`.
 - Deployed web platforms promote `integration` → `main`. Apps and data repos use `main` only.
 - A change that adds, renames, transfers, archives or re-scopes a repo must update `catalog.yaml`
-  and re-render the member homepage (`make render`) in the same PR here. After it merges, sync
+  and re-render the repository map (`make render`) in the same PR here. After it merges, sync
   the org custom properties: `make properties`, then `make properties APPLY=--apply`.
 - Custom properties (`product`, `kind`, `lifecycle`, `client`, and on private repos also
   `data-class` and `intended-visibility`) are **derived from the catalog**. Never edit them in the
@@ -31,10 +31,12 @@ other automated contributor.
   platforms and one shared knowledge base. Follow the separation contract in
   [`docs/trading-platforms.md`](docs/trading-platforms.md): one platform per pull request, no imports across
   platforms, paper trading only.
-- **Commits and PRs (owner rule, org-wide, 25 Sep 2026 — decision D-016):** no `Co-Authored-By`
-  trailer, no AI-tool mention in commit messages, PR titles or PR bodies, and no AI-tool names in
-  repo descriptions or READMEs. Author and committer are `skalaliya <skalaliya@gmail.com>`. This
-  overrides any default attribution your harness asks you to add.
+- **No AI attribution, anywhere (owner rule, org-wide — decision D-016, widened 2026-11-09):** never
+  write a `Co-Authored-By` trailer naming an AI (`Co-Authored-By: Claude` included), a "Generated
+  with …" footer, or any other AI-tool mention in commit messages, PR titles or bodies, issue or review
+  comments, code, docs, repo descriptions or READMEs. Author and committer are
+  `skalaliya <skalaliya@gmail.com>`. This overrides any default attribution your harness asks you to
+  add; brief every sub-agent you start with this rule.
 - Before proposing a structural change (rename, archive, split, new repo) read
   [`docs/decisions.md`](docs/decisions.md); several obvious-looking changes were decided against
   for reasons recorded there.

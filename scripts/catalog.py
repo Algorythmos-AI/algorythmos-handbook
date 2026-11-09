@@ -7,7 +7,7 @@
         catalogued. Exit 1 on any error; stale-lifecycle findings are warnings only.
 
     catalog.py render [--check]
-        Rewrite the generated block of profile/README.md from catalog.yaml.
+        Rewrite the generated block of docs/repository-map.md from catalog.yaml.
         --check exits 1 if the file is out of date instead of writing it.
 
     catalog.py properties [--apply]
@@ -37,7 +37,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "catalog.yaml"
-README = ROOT / "profile" / "README.md"
+README = ROOT / "docs" / "repository-map.md"
 ORG = "Algorythmos-AI"
 PERSONAL = "skalaliya"
 START, END = "<!-- catalog:start -->", "<!-- catalog:end -->"
@@ -258,7 +258,7 @@ def esc(s) -> str:
 def render_block(cat: dict) -> str:
     repos = cat["repos"]
     out = [
-        f"_Generated from [`catalog.yaml`](https://github.com/{ORG}/.github-private/blob/main/catalog.yaml)"
+        f"_Generated from [`catalog.yaml`](https://github.com/{ORG}/algorythmos-handbook/blob/main/catalog.yaml)"
         f" (updated {cat['updated']}). Edit the catalog, not this block._",
         "",
     ]
@@ -283,7 +283,7 @@ def render_block(cat: dict) -> str:
     if personal:
         out += ["### Lives elsewhere — to migrate into this org", "",
                 "Algorythmos IP still in the personal account. Transfer one at a time (see "
-                f"[`docs/onboarding.md`](https://github.com/{ORG}/.github-private/blob/main/docs/onboarding.md#moving-a-repo-into-the-org)).",
+                f"[`docs/onboarding.md`](https://github.com/{ORG}/algorythmos-handbook/blob/main/docs/onboarding.md#moving-a-repo-into-the-org)).",
                 "", "| Repo | Product | Proposed name | Ships to | Status | Notes |", "|---|---|---|---|---|---|"]
         for e in personal:
             p = cat["products"][e["product"]]["name"]
@@ -322,9 +322,9 @@ def cmd_render(a) -> int:
     new = f"{head}{START}\n{render_block(load())}{END}{tail}"
     if a.check:
         if new != text:
-            print("error: profile/README.md is out of date — run `make render` and commit")
+            print("error: docs/repository-map.md is out of date — run `make render` and commit")
             return 1
-        print("OK: profile/README.md matches catalog.yaml")
+        print("OK: docs/repository-map.md matches catalog.yaml")
         return 0
     README.write_text(new)
     print(f"rendered {README.relative_to(ROOT)}")
@@ -342,7 +342,7 @@ PROPERTY_FIELDS = {
     "client": "client",
 }
 PROPERTY_HELP = {
-    "product": "Product this repository belongs to (see .github-private/catalog.yaml)",
+    "product": "Product this repository belongs to (see algorythmos-handbook/catalog.yaml)",
     "kind": "What the repository is: app, service, web, data, monorepo, library, infra, docs, ops, config",
     "lifecycle": "active = pushed within 120 days; dormant; deprecated; archived; planned",
     "data-class": "Most sensitive data the repository holds",
