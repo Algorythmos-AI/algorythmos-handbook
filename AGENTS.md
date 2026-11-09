@@ -17,6 +17,8 @@ other automated contributor.
 
 - Branch from the repo's default branch, open a PR, and let CI gate it. Never push straight to `main`
   or `integration`.
+- In this repo, push a `claude/*` branch and the `Bot PR` workflow opens the draft PR as
+  `algorythmos-bot`, so the owner can approve it. Don't open it yourself as `skalaliya`.
 - Deployed web platforms promote `integration` → `main`. Apps and data repos use `main` only.
 - A change that adds, renames, transfers, archives or re-scopes a repo must update `catalog.yaml`
   and re-render the repository map (`make render`) in the same PR here. After it merges, sync

@@ -1,0 +1,58 @@
+name: Bot PR
+
+# Opens a draft pull request as algorythmos-bot when a claude/* branch is pushed,
+# so the owner can review and approve it (GitHub does not let an author approve
+# their own PR). Title and body come from the branch's first commit.
+#
+# Needs the Actions secret ALGORYTHMOS_BOT_TOKEN: a fine-grained PAT owned by
+# algorythmos-bot, resource owner Algorythmos-AI, with Pull requests read/write,
+# Contents read and Metadata read. Without it the job is skipped.
+
+on:
+  push: { branches: ["claude/**"] }
+  workflow_dispatch: {}
+
+permissions: { contents: read }
+
+concurrency: { group: "bot-pr-${{ github.ref }}", cancel-in-progress: false }
+
+jobs:
+  open-pr:
+    if: startsWith(github.ref, 'refs/heads/claude/')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Open draft PR as algorythmos-bot
+        env:
+          GH_TOKEN: ${{ secrets.ALGORYTHMOS_BOT_TOKEN }}
+          BRANCH: ${{ github.ref_name }}
+          BASE: ${{ github.event.repository.default_branch }}
+          REPO: ${{ github.repository }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::ALGORYTHMOS_BOT_TOKEN not set; no PR opened"
+            exit 0
+          fi
+          echo "Acting as: $(gh api user --jq .login)"
+          if ! gh api "repos/$REPO" --silent 2>/dev/null; then
+            echo "::error::The token cannot see $REPO. Give it access to this repo (resource owner Algorythmos-AI) or approve it in the org's token requests."
+            exit 1
+          fi
+          existing=$(gh pr list --repo "$REPO" --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "PR #$existing already open for $BRANCH"
+            exit 0
+          fi
+          first=$(git rev-list --reverse "origin/$BASE..HEAD" | head -1)
+          first=${first:-HEAD}
+          title=$(git log -1 --format=%s "$first")
+          git log -1 --format=%b "$first" > "$RUNNER_TEMP/body.md"
+          [ -s "$RUNNER_TEMP/body.md" ] || echo "Changes from \`$BRANCH\`." > "$RUNNER_TEMP/body.md"
+          url=$(gh pr create --repo "$REPO" --draft --base "$BASE" --head "$BRANCH" \
+            --title "$title" --body-file "$RUNNER_TEMP/body.md")
+          echo "Opened $url"
+          # Review request needs only Pull requests: write; assigning also needs Issues: write.
+          gh pr edit "$url" --add-reviewer skalaliya || echo "::warning::could not request review"
+          gh pr edit "$url" --add-assignee skalaliya || echo "::notice::could not assign (token lacks Issues: write)"
