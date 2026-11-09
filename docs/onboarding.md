@@ -6,7 +6,7 @@
    Integrant, Vision On Care: every term you'll see in a repo name.
 2. **[Architecture](architecture.md)** — 10 minutes. One diagram per product showing which repo feeds
    which, and where each one runs.
-3. **[Repository map](../profile/README.md#repository-map)** on the member homepage — find your repo.
+3. **[Repository map](repository-map.md)** (generated from the catalog) — find your repo.
    The map is generated from [`catalog.yaml`](../catalog.yaml); status, visibility, branch, deploy
    target and live URL are all there. For WASSUP read the
    [product map](wassup-product-map.md) first: only three of twenty are in use — Secretary (staging only), Wassup Doc and the
