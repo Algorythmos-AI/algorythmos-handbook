@@ -35,6 +35,11 @@ jobs:
             echo "::warning::ALGORYTHMOS_BOT_TOKEN not set; no PR opened"
             exit 0
           fi
+          echo "Acting as: $(gh api user --jq .login)"
+          if ! gh api "repos/$REPO" --silent 2>/dev/null; then
+            echo "::error::The token cannot see $REPO. Give it access to this repo (resource owner Algorythmos-AI) or approve it in the org's token requests."
+            exit 1
+          fi
           existing=$(gh pr list --repo "$REPO" --head "$BRANCH" --state open --json number --jq '.[0].number')
           if [ -n "$existing" ]; then
             echo "PR #$existing already open for $BRANCH"
