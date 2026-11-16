@@ -5,7 +5,7 @@ from [`catalog.yaml`](../catalog.yaml) by `make render`; edit the catalog, not t
 when the two disagree.
 
 <!-- catalog:start -->
-_Generated from [`catalog.yaml`](https://github.com/Algorythmos-AI/algorythmos-handbook/blob/main/catalog.yaml) (updated 2026-11-09). Edit the catalog, not this block._
+_Generated from [`catalog.yaml`](https://github.com/Algorythmos-AI/algorythmos-handbook/blob/main/catalog.yaml) (updated 2026-11-16). Edit the catalog, not this block._
 
 ### In this org
 
@@ -148,7 +148,7 @@ Stocks and options paper-trading research — the stocks desk, the options works
 | [`trading-lab-research`](https://github.com/Algorythmos-AI/trading-lab-research) | monorepo | active | — | private | `integration` | vercel, gcp | Created 2026-09-28. Research engine (wt package), strategy registry, and two paper desks: stocks (Alpaca paper account) and crypto (Kraken public data on the lab's own simulator, live 2026-10-04). Jobs run on a GCP VM since 2026-10-01. The status dashboard (dashboard/, lab.algorythmos.com) deploys to Vercel project trading-lab-dashboard as prebuilt output from GitHub Actions (no Git integration, so Vercel never clones the repo); Vercel Authentication on all deployments; it publishes sanitized snapshots only, never restricted content (its ADR 0001). D-026 (2026-10-10): this becomes the stocks and options platform; the crypto desk moves to crypto-lab, after which the owner renames this repo options-lab. Until then the status dashboard here keeps showing every desk. |
 | [`trading-lab-kraken-bot`](https://github.com/Algorythmos-AI/trading-lab-kraken-bot) | service | archived | — | private | `main` | — | Formerly skalaliya/kraken. The original Kraken spot paper-trading bot (TypeScript, Apr 2026); never held live keys. Rebuilt as the crypto desk in trading-lab-research. Transferred, renamed and archived 2026-10-05 (D-025). |
 | [`trading-lab-docs`](https://github.com/Algorythmos-AI/trading-lab-docs) | docs | active | — | private | `main` | vercel | Created 2026-10-12. One documentation site for the trading platforms (stocks and options, crypto, forex HFT) and the shared knowledge base: what is built, how it runs, where each stands and the roadmap, with design records and runbooks copied from each repository at a recorded commit. Served at docs.algorythmos.com (sign-in required, so no url here) from Vercel project trading-lab-docs through the Git integration, with Vercel Authentication on all deployments. Runs no Actions: pnpm check and a pre-push hook are the gate. Holds no specification text, research prose or knowledge-base text. algorythmos-docs (the document-processing product's docs) is a separate repository. |
-| [`focus-card-ledger`](https://github.com/Algorythmos-AI/focus-card-ledger) | data | active | — | private | `main` | — | Created 2026-10-28; catalogued 2026-11-09. Pre-registered Top 4 Focus Card predictions committed before the open, scored after the close against broker bars; sends the Card record page of the trading-lab-research dashboard. Research only: places and suggests no orders. Holds market data, so never public. |
+| [`trading-focus-card-ledger`](https://github.com/Algorythmos-AI/trading-focus-card-ledger) | data | active | — | **public** → private | `main` | — | Created 2026-10-28; catalogued 2026-11-09. Renamed from focus-card-ledger on 2026-11-16 to carry the trading prefix (GitHub redirects the old name). Pre-registered Top 4 Focus Card predictions committed before the open, scored after the close against broker bars; sends the Card record page of the trading-lab-research dashboard. Research only: places and suggests no orders. Holds market data, so never public. |
 
 #### HFT Lab
 
@@ -201,6 +201,7 @@ Public today for free Actions compute; intended private. Don't link these from p
 - [`sggs-data`](https://github.com/Algorythmos-AI/sggs-data) — restricted data
 - [`algominutes`](https://github.com/Algorythmos-AI/algominutes) — confidential data
 - [`wassup-secretary`](https://github.com/Algorythmos-AI/wassup-secretary) — confidential data
+- [`trading-focus-card-ledger`](https://github.com/Algorythmos-AI/trading-focus-card-ledger) — confidential data. Public on GitHub as found 2026-11-16, the day of the rename; private before. The catalog said never public because it holds market data, so the owner decides whether it stays public until go-private.
 - [`pdf-algo-pro`](https://github.com/Algorythmos-AI/pdf-algo-pro) — internal data. Temporarily public for Actions compute (D-002); back to private per go-private.md
 - [`algorythmos-website`](https://github.com/Algorythmos-AI/algorythmos-website) — internal data. Public on purpose since 2026-09-25 (D-009); the owner decides at go-private time whether it stays public
 - [`ichr-website`](https://github.com/Algorythmos-AI/ichr-website) — public data
