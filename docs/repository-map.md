@@ -5,7 +5,7 @@ from [`catalog.yaml`](../catalog.yaml) by `make render`; edit the catalog, not t
 when the two disagree.
 
 <!-- catalog:start -->
-_Generated from [`catalog.yaml`](https://github.com/Algorythmos-AI/algorythmos-handbook/blob/main/catalog.yaml) (updated 2026-11-16). Edit the catalog, not this block._
+_Generated from [`catalog.yaml`](https://github.com/Algorythmos-AI/algorythmos-handbook/blob/main/catalog.yaml) (updated 2026-11-17). Edit the catalog, not this block._
 
 ### In this org
 
@@ -113,7 +113,7 @@ Marketing sites built for small-business and community clients.
 | [`margaret-property-services-website`](https://github.com/Algorythmos-AI/margaret-property-services-website) | web | dormant | [margaret-property-services.vercel.app](https://margaret-property-services.vercel.app) | private | `main` | vercel | Moved from personal account 2026-09-24. |
 | [`elizabeth-cleaners-website`](https://github.com/Algorythmos-AI/elizabeth-cleaners-website) | web | dormant | [www.cleaningelizabeth.com.au](https://www.cleaningelizabeth.com.au) | private | `main` | vercel | Moved from personal account 2026-09-24. |
 | [`marigold-website`](https://github.com/Algorythmos-AI/marigold-website) | web | dormant | [marigold-international-society.vercel.app](https://marigold-international-society.vercel.app) | private | `main` | vercel | Moved from personal account 2026-09-24. |
-| [`empowerwell-website`](https://github.com/Algorythmos-AI/empowerwell-website) | web | active | [empowerwell-website.vercel.app](https://empowerwell-website.vercel.app) | private | `main` | vercel | Moved from personal account 2026-11-07. Registered NDIS provider site (Astro 7, static). Live on Vercel project empowerwell-website; custom domain empowerwell.com.au pending client registration. |
+| [`empowerwell-website`](https://github.com/Algorythmos-AI/empowerwell-website) | web | active | [empowerwellsupport.com.au](https://empowerwellsupport.com.au) | private | `main` | vercel | Moved from personal account 2026-11-07. Registered NDIS provider site (Astro 7, static). Live on empowerwellsupport.com.au (Vercel project empowerwell-website; DNS on Cloudflare, DNS only; www and the vercel.app domain 308 to the apex). |
 
 #### Vision On Care
 

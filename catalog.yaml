@@ -15,7 +15,7 @@
 #   url:         optional — the live URL a newcomer can open (rendered as "Live at"); must answer 200
 
 version: 1
-updated: 2026-11-16
+updated: 2026-11-17
 
 # Words that are public product names and may appear in the public profile even though a private
 # repo shares the name. scripts/catalog.py check-public ignores these.
@@ -272,7 +272,7 @@ repos:
   - {repo: Algorythmos-AI/margaret-property-services-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://margaret-property-services.vercel.app, deploys_to: [vercel], client: Margaret Property Services, notes: "Moved from personal account 2026-09-24."}
   - {repo: Algorythmos-AI/elizabeth-cleaners-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://www.cleaningelizabeth.com.au, deploys_to: [vercel], client: Elizabeth Cleaners, notes: "Moved from personal account 2026-09-24."}
   - {repo: Algorythmos-AI/marigold-website, product: client-sites, kind: web, location: org, lifecycle: dormant, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://marigold-international-society.vercel.app, deploys_to: [vercel], client: Marigold International Society, notes: "Moved from personal account 2026-09-24."}
-  - {repo: Algorythmos-AI/empowerwell-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://empowerwell-website.vercel.app, deploys_to: [vercel], client: Empowerwell Support, notes: "Moved from personal account 2026-11-07. Registered NDIS provider site (Astro 7, static). Live on Vercel project empowerwell-website; custom domain empowerwell.com.au pending client registration."}
+  - {repo: Algorythmos-AI/empowerwell-website, product: client-sites, kind: web, location: org, lifecycle: active, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, url: https://empowerwellsupport.com.au, deploys_to: [vercel], client: Empowerwell Support, notes: "Moved from personal account 2026-11-07. Registered NDIS provider site (Astro 7, static). Live on empowerwellsupport.com.au (Vercel project empowerwell-website; DNS on Cloudflare, DNS only; www and the vercel.app domain 308 to the apex)."}
 
   # ── Vision On Care (archived) ───────────────────────────────────────────────
   - {repo: Algorythmos-AI/visiononcare-web, product: visiononcare, location: org, lifecycle: archived, visibility: private, intended_visibility: private, data_class: internal, default_branch: main, licence: proprietary, kind: web, url: https://vison-on-care-frontend.vercel.app, deploys_to: [vercel], notes: "Formerly visiononcare/frontend. The only substantial Vision On Care code: React + Vite front end with mock-backed workflows. Vercel project vison-on-care-frontend (spelling as created) still serves the last build. Imported and archived 2026-09-25 (D-013)."}
